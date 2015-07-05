@@ -1,66 +1,27 @@
-var resources = require('./../../resources/model');
+var CorePlugin = require('./../corePlugin').CorePlugin,
+  resources = require('./../../resources/model'),
+  util = require('util');
 
-var actuator, interval;
-var model = resources.pi.actuators.leds['1'];
-var pluginName = model.name;
-var localParams = {'simulate': false, 'frequency': 2000};
+var actuator;
 
-exports.start = function (params) {
-  localParams = params;
-  observe(model); //#A
-
-  if (params.simulate) {
-    simulate();
-  } else {
-    connectHardware();
-  }
+var LedsPlugin = exports.LedsPlugin = function (params) {
+  CorePlugin.call(this, params,
+    resources.pi.actuators.leds['1'], switchOnOff);
 };
 
-exports.stop = function () {
-  if (params.simulate) {
-    clearInterval(interval);
-  } else {
-    actuator.unexport();
-  }
-  console.info('%s plugin stopped!', pluginName);
-};
-
-function observe(what) {
-  Object.observe(what, function (changes) {
-    console.info('Change detected by plugin for %s...', pluginName);
-    switchOnOff(model.value); //#B
-  });
-};
-
-function switchOnOff(value) {
-  if (!params.simulate) {
-    +value;
-    value = (value + 1) % 2;
-    actuator.write(value, function () { //#C
-      console.info('Changed value of %s to %i', value);
-    });
-  }
-};
-
-function connectHardware() {
+LedsPlugin.prototype.connectHardware = function () {
   var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(14, 'out'); //#D
+  actuator = new Gpio(14, 'out');
   console.info('Hardware %s actuator started!', pluginName);
 };
 
-function simulate() {
-  interval = setInterval(function () {
-    // Switch value on a regular basis
-    if (model.value) {
-      model.value = false;
-    } else {
-      model.value = true;
-    }
-  }, localParams.frequency);
-  console.info('Simulated %s actuator started!', pluginName);
+function switchOnOff(model) {
+  +model.value;
+  model.value = (model.value + 1) % 2;
+  actuator.write(model.value, function () {
+    console.info('Changed value to %i', model.value);
+  });
 };
 
-//#A Observe the model for the LEDs
-//#B Listen for model changes, on changes call switchOnOff
-//#C Change the LED state by chaning the GPIO state
-//#D Connect the GPIO in write (output) mode
+util.inherits(LedsPlugin, CorePlugin);
+

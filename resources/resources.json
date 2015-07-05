@@ -1,7 +1,7 @@
 {
   "pi": {
     "name": "WoT Pi",
-    "description": "A simple WoT-connected Raspberry PI for the WoT book.",
+    "description": "A simple WoT-connected Raspberry Pi for the WoT book.",
     "port": 8484,
     "sensors": {
       "temperature": {

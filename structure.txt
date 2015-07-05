@@ -24,4 +24,4 @@ wot-pi
 ├── utils
 │   └── utils.js
 ├── package.json
-└── wot-pi.js
+└── wot-server.js

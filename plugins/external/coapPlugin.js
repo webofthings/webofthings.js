@@ -1,3 +1,5 @@
+//TODO: refactor with CorePlugin
+
 var utils = require('./../../utils/utils.js'),
   resources = require('./../../resources/model');
 
