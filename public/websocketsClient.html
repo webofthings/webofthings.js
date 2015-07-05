@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<body><script>
+    function subscribeToWs(url, msg) {
+        var socket = new WebSocket(url);
+
+        socket.onmessage = function (event) {
+            console.log(event.data);
+        };
+        socket.onerror = function (error) {
+            console.log('An error occurred while trying to connect to a Websocket!');
+            console.log(error);
+        };
+        socket.onopen = function (event) {
+            if (msg) {
+                socket.send(msg);
+            }
+        };
+    }
+    //subscribeToWs('ws://localhost:8484/pi/sensors/temperature');
+    subscribeToWs('ws://localhost:8484/things/coapDevice/sensors/co2');
+</script></body></html>

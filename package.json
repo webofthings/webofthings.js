@@ -1,0 +1,36 @@
+{
+  "name": "wot-pi",
+  "version": "1.0.0",
+  "description": "A Web of Things server for the Pi",
+  "main": "wot-pi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dom guinard",
+  "license": "MIT",
+  "keywords": [
+    "web of things",
+    "building the web of things",
+    "wot",
+    "REST",
+    "HTTP",
+    "mqtt",
+    "pi",
+    "coap",
+    "m2m",
+    "iot",
+    "tcp",
+    "internet of things",
+    "messaging"
+  ],
+  "dependencies": {
+    "bl": "^1.0.0",
+    "body-parser": "^1.13.1",
+    "coap": "^0.10.3",
+    "express": "^4.12.4",
+    "msgpack5": "^2.3.1",
+    "node-json2html": "^1.0.0",
+    "observed": "^1.1.1",
+    "ws": "^0.7.2"
+  }
+}
