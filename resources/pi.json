@@ -1,113 +1,120 @@
 {
-  "id":"pi",
+  "id": "pi",
   "name": "My WoT Raspberry PI",
   "description": "A simple WoT-connected Raspberry PI for the WoT book.",
-  "tags": ["raspberry","pi","WoT"],
-  "links":{
+  "tags": [
+    "raspberry",
+    "pi",
+    "WoT"
+  ],
+  "customFields" : {
+    "port" : 8484
+  },
+  "links": {
     "product": {
-      "link" : "https://www.raspberrypi.org/products/raspberry-pi-2-model-b/",
-      "title" : "Product this Web Thing is based on"
+      "link": "https://www.raspberrypi.org/products/raspberry-pi-2-model-b/",
+      "title": "Product this Web Thing is based on"
     },
     "properties": {
-      "link" : "http://w3c.org/schemas/properties/",
-      "title" : "List of Properties",
-      "resources":[
-        {
-          "id":"temperature",
+      "link": "/properties",
+      "title": "List of Properties",
+      "resources": {
+        "temperature": {
           "name": "Temperature Sensor",
           "description": "An ambient temperature sensor.",
-          "values":{
-            "temp":{
-              "name":"Temperature sensor",
-              "description":"The temperature in celsius",
-              "unit":"celsius",
-              "value": 0,
-              "customFields":{
+          "values": {
+            "temp": {
+              "name": "Temperature sensor",
+              "description": "The temperature in celsius",
+              "unit": "celsius",
+              "customFields": {
                 "gpio": 21
               }
             }
           },
-          "tags":["sensor","public","temperature"]
+          "tags": [
+            "sensor",
+            "public",
+            "indoors"
+          ]
         },
-        {
-          "id":"humidity",
+        "humidity": {
           "name": "Humidity Sensor",
           "description": "An ambient humidity sensor.",
-          "values":{
-            "h":{
-              "name":"Humidity",
-              "description":"Percentage of Humidity",
+          "values": {
+            "h": {
+              "name": "Humidity",
+              "description": "Percentage of Humidity",
               "unit": "%",
-              "value": 0,
-              "customFields":{
+              "customFields": {
                 "gpio": 21
               }
             }
           },
-          "tags":["sensor","public"]
+          "tags": [
+            "sensor",
+            "public"
+          ]
         },
-        {
-          "id":"pir",
+        "pir": {
           "name": "Passive Infrared",
           "description": "A passive infrared sensor.",
-          "values":{
-            "p":{
-              "name":"Presence",
-              "description":"Current sensor value (true=motion detected)",
-              "type":"boolean",
-              "value": false,
-              "customFields":{
+          "values": {
+            "p": {
+              "name": "Presence",
+              "description": "Current sensor value (true=motion detected)",
+              "type": "boolean",
+              "customFields": {
                 "gpio": 20
               }
             }
           },
-          "tags":["sensor","public"]
+          "tags": [
+            "sensor",
+            "public"
+          ]
         },
-        {
-          "id":"leds",
+        "leds": {
           "name": "LEDs",
           "description": "The LEDs of this device.",
-          "values":{
+          "values": {
             "1": {
               "name": "LED 1",
-              "value": false,
-              "customFields":{
+              "customFields": {
                 "gpio": 17
               }
             },
             "2": {
               "name": "LED 2",
-              "value": false,
-              "customFields":{
+              "customFields": {
                 "gpio": 19
               }
             }
           },
-          "tags":["sensor","public"]
+          "tags": [
+            "sensor",
+            "public"
+          ]
         }
-      ]
+      }
     },
-    "actions":{
-      "link": "http://w3c.org/schemas/actions/",
+    "actions": {
+      "link": "/actions",
       "title": "Actions of this Web Thing",
-      "resources":[
-        {
-          "id":"displayText",
-          "name":"Display text on the LCD screen",  
-          "values":{
-            "text":{
-              "type":"String",
-              "required":true
+      "resources": {
+        "ledState": {
+          "values": {
+            "ledId": {
+              "type": "string",
+              "required": true
             },
-            "delay":{
-              "type":"Integer",
-              "minValue":30,
-              "maxValue":1800,
-              "unit":"seconds"
+            "state": {
+              "type": "boolean",
+              "required" : true
             }
           }
         }
-      ]
+      }
     },
     "meta": {
       "link": "http://w3c.org/schemas/webthing/",

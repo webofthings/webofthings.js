@@ -2,6 +2,7 @@ var express = require('express'),
   actuatorsRoutes = require('./../routes/actuators'),
   sensorRoutes = require('./../routes/sensors'),
   thingsRoutes = require('./../routes/things'),
+  routesCreator = require('./../routes/routesCreator'),
   resources = require('./../resources/model'),
   converter = require('./../middleware/converter'),
   bodyParser = require('body-parser');
@@ -13,10 +14,13 @@ app.use(bodyParser.json());
 app.use('/pi/actuators', actuatorsRoutes);
 app.use('/pi/sensors', sensorRoutes);
 app.use('/things', thingsRoutes);
+app.use('/test', routesCreator.create(resources));
 
 app.get('/pi', function (req, res) {
   res.send('This is the WoT-Pi!')
 });
+
+
 
 // For representation design
 app.use(converter);

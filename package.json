@@ -30,6 +30,7 @@
     "express": "^4.12.4",
     "msgpack5": "^2.3.1",
     "node-json2html": "^1.0.0",
+    "node-uuid": "^1.4.3",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
   }

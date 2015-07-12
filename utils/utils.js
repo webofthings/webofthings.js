@@ -14,3 +14,11 @@ exports.addDevice = function(id, name, description, sensors, actuators) {
 exports.randomInt = function(low, high) {
   return Math.floor(Math.random() * (high - low + 1) + low);
 };
+
+exports.findObjectInArray = function(array, id) {
+  array.filter(function( obj ) {
+    if (obj.id === id) {
+      return obj;
+    }
+  });
+}
