@@ -49,27 +49,29 @@ function createActionsRoutes(actions) {
     next();
   });
 
-  // POST /actions/{id}
-  router.route(actions.link + '/:id').post(function (req, res, next) {
+  // POST /actions/{actionType}
+  router.route(actions.link + '/:actionType').post(function (req, res, next) {
     var action = req.body;
     action.id = uuid.v1();
-
-    actions.resources[req.params.id].data.push(req.body.value);
+    actions.resources[req.params.actionType].data.push(action);
     req.result = actions.resources;
     next();
   });
 
-  // GET /actions/{id}
-  router.route(actions.link + '/:id').get(function (req, res, next) {
-    req.result = actions.resources[req.params.id].data;
+  // GET /actions/{actionType}
+  router.route(actions.link + '/:actionType').get(function (req, res, next) {
+    req.result = actions.resources[req.params.actionType].data;
     next();
   });
 
   // GET /actions/{id}/{actionId}
-  router.route(actions.link + '/:id/:actionId').get(function (req, res, next) {
-    req.result = utils.findObjectInArray(actions.resources[req.params.id],
-      req.params.actionId);
-    next();
+  router.route(actions.link + '/:actionType/:actionId').get(function (req, res, next) {
+    utils.findObjectInArray(actions.resources[req.params.actionType].data,
+      req.params.actionId, function(result) {
+        //TODO: what happens if it is isn't found? Hangs forever now...
+        req.result = result;
+        next();
+      });
   });
 };
 
@@ -83,9 +85,9 @@ function createDefaultData(resources) {
     var resource = resources[resKey];
     //Object.keys(resource.values).forEach(function(valKey) {
     resource.data = [];
-    var value = {};
+    //var value = {};
     //  value[valKey] = 'hello';
-    resource.data.push(value);
+    //resource.data.push(value);
     //});
   });
 }

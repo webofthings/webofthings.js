@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use('/pi/actuators', actuatorsRoutes);
 app.use('/pi/sensors', sensorRoutes);
 app.use('/things', thingsRoutes);
-app.use('/test', routesCreator.create(resources));
+app.use('/', routesCreator.create(resources));
 
 app.get('/pi', function (req, res) {
   res.send('This is the WoT-Pi!')

@@ -15,10 +15,10 @@ exports.randomInt = function(low, high) {
   return Math.floor(Math.random() * (high - low + 1) + low);
 };
 
-exports.findObjectInArray = function(array, id) {
+exports.findObjectInArray = function(array, id, callback) {
   array.filter(function( obj ) {
     if (obj.id === id) {
-      return obj;
+      callback(obj);
     }
   });
 }
