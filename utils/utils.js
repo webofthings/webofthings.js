@@ -1,10 +1,11 @@
-var resources = require('./../resources/model');
+var model = require('./../resources/model'),
+  _ = require('lodash/collection');
 
 exports.addDevice = function(id, name, description, sensors, actuators) {
-  if(!resources.things) {
-    resources.things = {};
+  if(!model.things) {
+    model.things = {};
   }
-  resources.things[id] = {'name' : name,
+  model.things[id] = {'name' : name,
     'description' : description,
     'sensors' : sensors,
     'actuators' : actuators
@@ -15,10 +16,16 @@ exports.randomInt = function(low, high) {
   return Math.floor(Math.random() * (high - low + 1) + low);
 };
 
-exports.findObjectInArray = function(array, id, callback) {
-  array.filter(function( obj ) {
-    if (obj.id === id) {
-      callback(obj);
-    }
-  });
-}
+exports.findObjectInArray = function(array, filterObj) {
+  //TODO: could be made async if array is big
+  return _.find(array, filterObj);
+};
+
+exports.findProperty = function(propertyId){
+  return model.links.properties.resources[propertyId];
+};
+
+exports.isoTimestamp = function(){
+  var date = new Date();
+  return date.toISOString();
+};

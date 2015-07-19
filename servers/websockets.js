@@ -7,7 +7,7 @@ exports.listen = function(server) {
   wss.on('connection', function (ws) { //#B
     var url = ws.upgradeReq.url;
     console.info(url);
-      Object.observe(selectResouce(url), function (changes) { //#C
+      Object.observeActions(selectResouce(url), function (changes) { //#C
         ws.send(JSON.stringify(changes[0].object), function () {
         });
       });

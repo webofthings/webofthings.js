@@ -2,7 +2,6 @@ var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
   utils = require('./../utils/utils');
-//resources = require('./../resources/pi.json');
 
 exports.create = function (model) {
 
@@ -17,9 +16,13 @@ exports.create = function (model) {
   return router;
 };
 
+function createRoot() {
+  //TODO
+};
+
 function createModelRoutes(model) {
   // GET /model
-  router.route('model').get(function (req, res, next) {
+  router.route('/model').get(function (req, res, next) {
     req.result = model;
     next();
   });
@@ -28,13 +31,13 @@ function createModelRoutes(model) {
 function createPropertiesRoutes(properties) {
   // GET /properties
   router.route(properties.link).get(function (req, res, next) {
-    //TODO: must fetch the array of all data for all resources
+    //TODO: must fetch the array of all data for all model
     req.result = properties.resources;
     next();
   });
 
   // GET /properties/{id}
-  router.route(properties.link + ':id').get(function (req, res, next) {
+  router.route(properties.link + '/:id').get(function (req, res, next) {
     req.result = properties.resources[req.params.id].data;
     next();
   });
@@ -44,7 +47,7 @@ function createActionsRoutes(actions) {
   // GET /actions
   router.route(actions.link).get(function (req, res, next) {
 
-    //TODO: must fetch the array of all data for all resources
+    //TODO: must fetch the array of all data for all model
     req.result = actions.resources;
     next();
   });
@@ -54,7 +57,14 @@ function createActionsRoutes(actions) {
     var action = req.body;
     action.id = uuid.v1();
     actions.resources[req.params.actionType].data.push(action);
-    req.result = actions.resources;
+    res.location(req.originalUrl + '/' + action.id);
+
+    // TODO: Vlad: you can add the links header as follow:
+    res.links({
+      next: 'http://api.example.com/users?page=2',
+      last: 'http://api.example.com/users?page=5'
+    });
+
     next();
   });
 
@@ -66,12 +76,9 @@ function createActionsRoutes(actions) {
 
   // GET /actions/{id}/{actionId}
   router.route(actions.link + '/:actionType/:actionId').get(function (req, res, next) {
-    utils.findObjectInArray(actions.resources[req.params.actionType].data,
-      req.params.actionId, function(result) {
-        //TODO: what happens if it is isn't found? Hangs forever now...
-        req.result = result;
-        next();
-      });
+    req.result = utils.findObjectInArray(actions.resources[req.params.actionType].data,
+      {"id" : req.params.actionId});
+    next();
   });
 };
 

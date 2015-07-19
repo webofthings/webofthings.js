@@ -58,7 +58,7 @@ function configure() { //#G
 //#D When CoAP device sends the result the 'on response' event is triggered
 //#E Fetch the results and update the model
 //#F Poll the CoAP device for new CO2 readings on a regular basis
-//#G Adds the resources managed by this plugin to the model
+//#G Adds the model managed by this plugin to the model
 
 exports.start = function (params, app) {
   localParams = params;

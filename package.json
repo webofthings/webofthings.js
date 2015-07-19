@@ -27,11 +27,25 @@
     "bl": "^1.0.0",
     "body-parser": "^1.13.1",
     "coap": "^0.10.3",
+    "cors": "^2.7.1",
     "express": "^4.12.4",
+    "handlebars": "^3.0.3",
+    "lodash": "^3.10.0",
     "msgpack5": "^2.3.1",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
-  }
+  },
+  "devDependencies": {
+    "assert": "^1.3.0",
+    "chai": "^2.3.0",
+    "http-status": "^0.1.8",
+    "mocha": "^2.2.5",
+    "request": "^2.55.0"
+  },
+  "scripts": {
+    "start": "node wot-server.js"
+  },
+  "engine": "node >= 0.12.3"
 }

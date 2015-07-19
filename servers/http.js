@@ -1,28 +1,24 @@
 var express = require('express'),
-  actuatorsRoutes = require('./../routes/actuators'),
-  sensorRoutes = require('./../routes/sensors'),
-  thingsRoutes = require('./../routes/things'),
   routesCreator = require('./../routes/routesCreator'),
   resources = require('./../resources/model'),
   converter = require('./../middleware/converter'),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  cons = require('consolidate'),
+  cors = require('cors');
 
 var app = express();
-
 app.use(bodyParser.json());
 
-app.use('/pi/actuators', actuatorsRoutes);
-app.use('/pi/sensors', sensorRoutes);
-app.use('/things', thingsRoutes);
 app.use('/', routesCreator.create(resources));
 
-app.get('/pi', function (req, res) {
-  res.send('This is the WoT-Pi!')
-});
-
-
+// Setup all the templating, we use handlebars
+// TODO: Vlad: templating using https://github.com/wycats/handlebars.js/
+app.engine('html', cons.handlebars);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/../views');
 
 // For representation design
+//app.use(cors());
 app.use(converter);
 
 
@@ -35,30 +31,3 @@ app.use(converter);
 //});
 
 module.exports = app;
-
-
-/*
- //Initial version:
-
-var express = require('express'),
-  actuatorsRoutes = require('./../routes/actuators'),
-  sensorRoutes = require('./../routes/sensors'),
-  resources = require('./../resources/model'); //#A
-
-var app = express(); //#B
-
-app.use('/pi/actuators', actuatorsRoutes); //#C
-app.use('/pi/sensors', sensorRoutes);
-
-app.get('/pi', function (req, res) { //#D
-  res.send('This is the WoT-Pi!')
-});
-
-module.exports = app;
-
-//#A Requires the Express framework, our routes and the model
-//#B Creates an application with the Express framework, this wraps an HTTP server
-//#C Binds our routes to the Express application we bind them to /pi/actuators/... and /pi/sensors/...
-//#D Create a default route for /pi
-
-*/

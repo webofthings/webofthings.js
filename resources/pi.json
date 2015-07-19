@@ -60,7 +60,7 @@
           "name": "Passive Infrared",
           "description": "A passive infrared sensor.",
           "values": {
-            "p": {
+            "presence": {
               "name": "Presence",
               "description": "Current sensor value (true=motion detected)",
               "type": "boolean",
@@ -116,9 +116,9 @@
         }
       }
     },
-    "meta": {
+    "type": {
       "link": "http://w3c.org/schemas/webthing/",
-      "title": "Metadata"
+      "title": "Instance type of the Pi"
     },
     "help": {
       "link": "http://webofthings.org/docs/pi/",
