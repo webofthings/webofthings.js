@@ -53,7 +53,7 @@ CorePlugin.prototype.observeActions = function() {
   _.forEach(self.actions, function(actionId) {
     Object.observe(resources.links.actions.resources[actionId].data, function (changes) {
       var action = changes[0].object[0];
-      console.info('%s action %s detected by plugin ', actionId, action);
+      console.info('%s action detected by plugin', actionId);
       if(self.doAction) self.doAction(action);
     }, ['add']);
   });

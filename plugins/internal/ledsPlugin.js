@@ -25,11 +25,12 @@ function stop() {
 };
 
 function simulate() {
-  addData(false);
+  //addData(false);
 };
 
 function addData(value) {
-  model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
+  // TODO: support several values model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
+  model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
 };
 
 function switchOnOff(changes) {

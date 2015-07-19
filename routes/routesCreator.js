@@ -14,12 +14,12 @@ exports.create = function (model) {
   createPropertiesRoutes(model.links.properties);
   createActionsRoutes(model.links.actions);
 
-  createRoot(model);
+  createRootRoute(model);
 
   return router;
 };
 
-function createRoot(model) {
+function createRootRoute(model) {
   router.route('/').get(function (req, res, next) {
     // TODO: Headers
 
@@ -28,6 +28,7 @@ function createRoot(model) {
     next();
   });
 };
+
 
 function createModelRoutes(model) {
   // GET /model
@@ -41,7 +42,7 @@ function createPropertiesRoutes(properties) {
   // GET /properties
   router.route(properties.link).get(function (req, res, next) {
     //TODO: must fetch the array of all data for all model
-    req.result = properties.resources;
+    req.result = transformProperties(properties.resources);
     next();
   });
 
@@ -55,9 +56,7 @@ function createPropertiesRoutes(properties) {
 function createActionsRoutes(actions) {
   // GET /actions
   router.route(actions.link).get(function (req, res, next) {
-
-    //TODO: must fetch the array of all data for all model
-    req.result = actions.resources;
+    req.result = transformActions(actions.resources);
     next();
   });
 
@@ -65,6 +64,8 @@ function createActionsRoutes(actions) {
   router.route(actions.link + '/:actionType').post(function (req, res, next) {
     var action = req.body;
     action.id = uuid.v1();
+    action.status = "pending";
+    action.timestamp = utils.isoTimestamp();
     actions.resources[req.params.actionType].data.push(action);
     res.location(req.originalUrl + '/' + action.id);
 
@@ -106,4 +107,29 @@ function createDefaultData(resources) {
     //resource.data.push(value);
     //});
   });
+}
+
+function transformProperties(properties) {
+  var result = [];
+  Object.keys(properties).forEach(function(key) {
+    var val = properties[key];
+    var property = {};
+    property.id = key;
+    property = utils.extractFields(['name'], val, property);
+    property.values = val.data[0];
+    result.push(property);
+  });
+  return result;
+}
+
+function transformActions(actions) {
+  var result = [];
+  Object.keys(actions).forEach(function(key) {
+    var val = actions[key];
+    var action = {};
+    action.id = key;
+    action = utils.extractFields(['name'], val, action);
+    result.push(action);
+  });
+  return result;
 }

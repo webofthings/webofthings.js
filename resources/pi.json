@@ -103,6 +103,8 @@
       "title": "Actions of this Web Thing",
       "resources": {
         "ledState": {
+          "name": "Change LED state",
+          "description": "Change the state of an LED",
           "values": {
             "ledId": {
               "type": "string",

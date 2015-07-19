@@ -30,12 +30,12 @@ exports.isoTimestamp = function(){
   return date.toISOString();
 };
 
-exports.extractFields = function(fields, object) {
-  var result = {};
+exports.extractFields = function(fields, object, target) {
+  if(!target) var target = {};
   var arrayLength = fields.length;
   for (var i = 0; i < arrayLength; i++) {
     var field = fields[i];
-    result[field] = object[field];
+    target[field] = object[field];
   }
-  return result;
+  return target;
 };

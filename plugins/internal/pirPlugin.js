@@ -35,7 +35,8 @@ function simulate() {
 };
 
 function addData(value) {
-  model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
+  //TODO: support several values: model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
+  model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
 };
 
 util.inherits(PirPlugin, CorePlugin);

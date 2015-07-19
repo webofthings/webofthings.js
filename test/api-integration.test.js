@@ -3,26 +3,28 @@ var request = require('request');
 var server = require('../wot-server');
 var status = require('http-status');
 
-describe('/', function() {
+describe('/', function () {
   var app, req;
   var port = 8777;
   var rootUrl = 'http://localhost:' + port;
 
 
-  before(function() {
+  before(function () {
     app = server(port);
 
-    req = request.defaults({json: true, headers: {
-      'Accept': 'application/json'
-    }});
+    req = request.defaults({
+      json: true, headers: {
+        'Accept': 'application/json'
+      }
+    });
   });
 
-  after(function() {
+  after(function () {
     app.close();
   });
 
-  it('returns the thing', function(done) {
-    req.get(rootUrl, function(err, res, thing) {
+  it('returns the thing', function (done) {
+    req.get(rootUrl, function (err, res, thing) {
 
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
@@ -34,8 +36,8 @@ describe('/', function() {
   });
 
 
-  it('returns the model', function(done) {
-    req.get(rootUrl + '/model', function(err, res, model) {
+  it('returns the model', function (done) {
+    req.get(rootUrl + '/model', function (err, res, model) {
 
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
@@ -50,35 +52,34 @@ describe('/', function() {
   });
 
 
-  it('returns the properties', function(done) {
-    req.get(rootUrl + '/properties', function(err, res, sensors) {
+  it('returns the properties', function (done) {
+    req.get(rootUrl + '/properties', function (err, res, props) {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
 
-      //expect(sensors).to.have.all.keys(['temperature', 'humidity', 'pir']);
+      expect(props).to.be.a('array');
 
       done();
     });
   });
 
 
-  it('returns the actions', function(done) {
-    req.get(rootUrl + '/actions', function(err, res, sensor) {
+  it('returns the actions', function (done) {
+    req.get(rootUrl + '/actions', function (err, res, actions) {
 
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
 
-      //expect(sensor).to.have.all.keys(sensorNumProp);
-      //
-      //// check the sensor value
-      //expect(sensor.value).to.be.within(0,50);
+      expect(actions).to.be.a('array');
+      expect(actions[0].id).to.equal('ledState');
+      expect(actions[0].name).to.equal('Change LED state');
 
       done();
     });
   });
 
-  it('returns the PIR property of the Pi', function(done) {
-    req.get(rootUrl + '/properties/pir', function(err, res, pir) {
+  it('returns the PIR property of the Pi', function (done) {
+    req.get(rootUrl + '/properties/pir', function (err, res, pir) {
 
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
@@ -91,11 +92,11 @@ describe('/', function() {
     });
   });
 
-  it('creates a ledState action', function(done) {
+  it('creates a ledState action', function (done) {
     var uri = '/actions/ledState'
     req.post(rootUrl + uri,
-      {body : {"ledId" : 1, "state" : true}},
-      function(err, res, ledStates) {
+      {body: {"ledId": 1, "state": true}},
+      function (err, res, ledStates) {
 
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(status.NO_CONTENT);
@@ -107,8 +108,31 @@ describe('/', function() {
       });
   });
 
-  it('returns the ledState actions', function(done) {
-    req.get(rootUrl + '/actions/ledState', function(err, res, ledStates) {
+
+  it('retrieves a specific ledState action', function (done) {
+    var uri = '/actions/ledState'
+    req.post(rootUrl + uri,
+      {body: {"ledId": 1, "state": true}},
+      function (err, res, ledStates) {
+        req.get(rootUrl + res.headers.location, function (err, res, action) {
+
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(status.OK);
+
+          // check the sensor value
+          expect(action).to.be.a('object');
+          expect(action.state).to.be.a('boolean');
+          expect(action.status).to.be.a('string');
+          expect(action.timestamp).to.be.a('string');
+
+          done();
+        });
+      });
+  });
+
+
+  it('returns the ledState actions', function (done) {
+    req.get(rootUrl + '/actions/ledState', function (err, res, ledStates) {
 
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
@@ -123,10 +147,12 @@ describe('/', function() {
 
 
   // HTML views
-  it('returns the properties page', function(done) {
-    req.get(rootUrl + '/properties', {json: false, headers: {
-      'Accept': 'text/html'
-    }}, function(err, res, html) {
+  it('returns the properties page', function (done) {
+    req.get(rootUrl + '/properties', {
+      json: false, headers: {
+        'Accept': 'text/html'
+      }
+    }, function (err, res, html) {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(status.OK);
       expect(html).to.be.a('string');
@@ -137,19 +163,19 @@ describe('/', function() {
     done();
   });
 
-  it('returns the homepage of the gateway', function(done) {
-      req.get(rootUrl, {json: false, headers: {
+  it('returns the homepage of the gateway', function (done) {
+    req.get(rootUrl, {
+      json: false, headers: {
         'Accept': 'text/html'
-      }}, function(err, res, html) {
-        expect(err).to.be.null;
-        expect(res.statusCode).to.equal(status.OK);
-        expect(html).to.be.a('string');
-        expect(html).to.have.string('<!DOCTYPE html>');
-      });
-      done();
+      }
+    }, function (err, res, html) {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+      expect(html).to.be.a('string');
+      expect(html).to.have.string('<!DOCTYPE html>');
     });
-
-
+    done();
+  });
 
 
 });
