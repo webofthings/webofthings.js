@@ -5,10 +5,19 @@ function represent(req, res, next) {
   console.info('Representation converter middleware called!');
   if (req.result) {
     if (req.accepts('html')) {
-      //TODO: Vlad: Templating here or in routes directly
 
-      if (req.type) res.render(req.type, { result: req.result, model: req.model});
-      else res.render('default', { result: req.result});
+      var helpers = {
+        json: function(object) {
+          return JSON.stringify(object);
+        },
+        getById: function(object,id) {
+          return object[id];
+        }
+      };
+
+      if (req.type) res.render(req.type, { req: req , helpers: helpers });
+      else res.render('default', { req: req , helpers: helpers });
+
       return;
     }
 
@@ -30,3 +39,7 @@ function represent(req, res, next) {
   }
 }
 module.exports = represent;
+
+
+
+

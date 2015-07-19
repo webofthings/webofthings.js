@@ -4,6 +4,9 @@ var express = require('express'),
   utils = require('./../utils/utils'),
   _ = require('lodash');
 
+
+var perPage = 30;
+
 exports.create = function (model) {
 
   //TODO: Do we really need this? Isn't this injected by the plugins?
@@ -19,6 +22,7 @@ exports.create = function (model) {
   return router;
 };
 
+
 function createRootRoute(model) {
   router.route('/').get(function (req, res, next) {
 
@@ -28,14 +32,16 @@ function createRootRoute(model) {
     var fields = ['id', 'name', 'description', 'tags', 'customFields'];
     req.result = utils.extractFields(fields, model);
 
-    if (req.accepts('html')) {
-      //TODO: Vlad: Templating here or in routes directly
-      res.render('root', { result: req.result});
-      return;
-    }
+    // 
+    if (model['@context']) type = model['@context'];
+    else type = 'http://model.webofthings.org/';
 
     res.links({
-      model: 'http://api.example.com/users?page=2'
+      model: 'model/',
+      properties: 'properties/',
+      actions: 'actions/',
+      things: 'things/',
+      type: type
     });
 
 
@@ -50,10 +56,9 @@ function createModelRoutes(model) {
     req.result = model;
 
     req.model = model;
-    req.type ='model';
 
     res.links({
-      next: 'http://api.example.com/users?page=2'
+      type: model['@context']
     });
 
     next();
@@ -67,22 +72,44 @@ function createPropertiesRoutes(model) {
   router.route(properties.link).get(function (req, res, next) {
     req.model = model;
     req.type ='properties';
+    req.entityId = 'properties';
+
     //TODO: must fetch the array of all data for all model
     req.result = transformProperties(properties.resources);
+
+    // Generate the Link headers 
+    if (properties['@context']) type = properties['@context'];
+    else type = 'http://model.webofthings.org/properties';
+
+    res.links({
+      type: type
+    });
+
     next();
   });
 
   // GET /properties/{id}
   router.route(properties.link + '/:id').get(function (req, res, next) {
     req.model = model;
+    req.propertyModel = properties.resources[req.params.id];
     req.type ='property';
+    req.entityId = req.params.id;
+
     req.result = properties.resources[req.params.id].data;
+
+    // Generate the Link headers 
+    if (properties.resources[req.params.id]['@context']) type = properties.resources[req.params.id]['@context'];
+    else type = 'http://model.webofthings.org/properties';
+
+    res.links({
+      type: type
+    });
+
     next();
   });
 };
 
 function createActionsRoutes(model) {
-
 
   var actions= model.links.actions;
 
@@ -92,6 +119,14 @@ function createActionsRoutes(model) {
     
     req.model = model;
     req.type ='actions';
+    req.entityId = 'actions';
+
+    if (actions['@context']) type = actions['@context'];
+    else type = 'http://model.webofthings.org/actions';
+
+    res.links({
+      type: type
+    });
 
     next();
   });
@@ -105,23 +140,32 @@ function createActionsRoutes(model) {
     actions.resources[req.params.actionType].data.push(action);
     res.location(req.originalUrl + '/' + action.id);
 
-    // TODO: Vlad: you can add the links header as follow:
-    res.links({
-      next: 'http://api.example.com/users?page=2',
-      last: 'http://api.example.com/users?page=5'
-    });
-
     next();
   });
 
+
   // GET /actions/{actionType}
   router.route(actions.link + '/:actionType').get(function (req, res, next) {
-    req.result = actions.resources[req.params.actionType].data;
 
+    // TODO handle pagination here & in the headers
+    //console.log("Asking for page: " + req.query.page +"(Total #: "+ actions.resources[req.params.actionType].data.length +")");
+
+    req.result = actions.resources[req.params.actionType].data;
+    req.actionModel = actions.resources[req.params.actionType];
     req.model = model;
-    req.type ='action';
+
+    req.entityId = req.params.actionType;
+
+
+    if (actions.resources[req.params.actionType]['@context']) type = actions.resources[req.params.actionType]['@context'];
+    else type = 'http://model.webofthings.org/actions';
 
     res.links({
+      type: type
+    });
+
+    res.links({
+      type: type,
       next: 'http://api.example.com/users?page=2',
       last: 'http://api.example.com/users?page=5'
     });

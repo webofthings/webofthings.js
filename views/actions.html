@@ -6,12 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script type="text/javascript">
-    var key = 'EDIT-ME';
-    var thngId = 'EDIT-ME';
-  </script>
-
-
   <title>WoT Controller</title>
 
   <style class="anchorjs"></style>
@@ -29,8 +23,8 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/">{{req.model.id}}</a> {{req.originalUrl}}</h1>
-			<p>Properties of this Web Thing</p>
+			<h1><a href="/">{{req.model.id}}</a> / {{req.entityId}} </h1>
+			<p>Actions of this Web Thing</p>
 		</div>
 	</div>
 
@@ -39,10 +33,15 @@
 			<div class="col-md-9" role="main">
 				<div class="bs-docs-section">
 
-					<h2>Result</h2>
+					<h2>{{req.model.links.actions.title}}</h2>
 
 
-					{{json req.result}}
+					{{#each req.result}}
+					<hr>
+					<h3><a href="/actions/{{this.id}}">{{this.name}}</a></h3>
+					<p>{{this.description}}</p>
+
+					{{/each}}
 
 				</div>
 

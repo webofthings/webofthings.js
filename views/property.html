@@ -6,12 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script type="text/javascript">
-    var key = 'EDIT-ME';
-    var thngId = 'EDIT-ME';
-  </script>
-
-
   <title>WoT Controller</title>
 
   <style class="anchorjs"></style>
@@ -29,8 +23,8 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/">{{req.model.id}}</a> {{req.originalUrl}}</h1>
-			<p>Properties of this Web Thing</p>
+			<h1><a href="/">{{req.model.id}}</a> / <a href="/properties">properties</a> / {{req.entityId}}</h1>
+			<p>Property Details</p>
 		</div>
 	</div>
 
@@ -39,10 +33,44 @@
 			<div class="col-md-9" role="main">
 				<div class="bs-docs-section">
 
-					<h2>Result</h2>
+          {{#if req.propertyModel.name}}
+            <h2>{{req.propertyModel.name}}</h2>
+          {{else}}
+            <h2>{{req.entityId}}</h2>
+          {{/if}}
+
+          <p>{{req.propertyModel.description}}</p>
+
+          <p><b>Tags:</b> {{req.propertyModel.tags}}</p>
+
+          <h3>Values</h3>
 
 
-					{{json req.result}}
+					{{#each req.propertyModel.values}}
+					<hr>
+					<h4>["{{@key}}"] - {{this.name}}</h4>
+          <p><em>{{this.description}}</em></p>
+          <p>type: {{this.type}}</p>
+          <p>unit: {{this.unit}}</p>
+          
+          {{#if ../req.result.[0]}}
+            <p>Value: {{getById ../../req.result.[0] @key}}</p>
+            <p>Timestamp: {{../../req.result.[0].timestamp}}</p>
+          {{/if}}
+
+
+					<ul class="list-group">
+						
+						{{#each this.values}}
+						<li class="list-group-item">
+						<span id="value-{{@key}}" class="badge">{{this}}</span>
+						{{@key}}
+						</li>
+						{{/each}}
+
+					</ul>
+
+					{{/each}}
 
 				</div>
 
