@@ -2,6 +2,7 @@ var expect = require('chai').expect
 var request = require('request');
 var server = require('../wot-server');
 var status = require('http-status');
+var util = require('util');
 
 describe('/', function () {
   var app, req;
@@ -58,6 +59,7 @@ describe('/', function () {
       expect(res.statusCode).to.equal(status.OK);
 
       expect(props).to.be.a('array');
+      expect(props).to.be.of.length(4);
 
       done();
     });
@@ -115,6 +117,8 @@ describe('/', function () {
       {body: {"ledId": 1, "state": true}},
       function (err, res, ledStates) {
         req.get(rootUrl + res.headers.location, function (err, res, action) {
+
+          console.log('Retrieved action --> %s', util.inspect(action, false, null));
 
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(status.OK);
