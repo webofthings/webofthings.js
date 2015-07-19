@@ -18,7 +18,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/../views');
 
 // For representation design
-//app.use(cors());
+app.use(cors());
 
 // Set the public folder (for .css & co)
 app.use(express.static(__dirname + '/../public'));

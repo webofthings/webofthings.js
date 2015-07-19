@@ -2,7 +2,8 @@ var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
   utils = require('./../utils/utils'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  validate = require('express-jsonschema').validate;
 
 
 var perPage = 30;

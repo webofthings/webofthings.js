@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node wot-server.js"
   },
-  "author": "dom guinard",
-  "license": "MIT",
+  "author": "Dom guinard",
+  "author": "Vlad Trifa",
+  "license": "Apache-2.0",
   "keywords": [
     "web of things",
     "building the web of things",
