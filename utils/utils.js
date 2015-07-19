@@ -29,3 +29,13 @@ exports.isoTimestamp = function(){
   var date = new Date();
   return date.toISOString();
 };
+
+exports.extractFields = function(fields, object) {
+  var result = {};
+  var arrayLength = fields.length;
+  for (var i = 0; i < arrayLength; i++) {
+    var field = fields[i];
+    result[field] = object[field];
+  }
+  return result;
+};

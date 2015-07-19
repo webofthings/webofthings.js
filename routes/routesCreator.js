@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
-  utils = require('./../utils/utils');
+  utils = require('./../utils/utils'),
+  _ = require('lodash');
 
 exports.create = function (model) {
 
@@ -13,11 +14,19 @@ exports.create = function (model) {
   createPropertiesRoutes(model.links.properties);
   createActionsRoutes(model.links.actions);
 
+  createRoot(model);
+
   return router;
 };
 
-function createRoot() {
-  //TODO
+function createRoot(model) {
+  router.route('/').get(function (req, res, next) {
+    // TODO: Headers
+
+    var fields = ['id', 'name', 'description', 'tags', 'customFields'];
+    req.result = utils.extractFields(fields, model);
+    next();
+  });
 };
 
 function createModelRoutes(model) {

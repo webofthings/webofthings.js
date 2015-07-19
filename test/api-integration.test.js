@@ -21,6 +21,19 @@ describe('/', function() {
     app.close();
   });
 
+  it('returns the thing', function(done) {
+    req.get(rootUrl, function(err, res, thing) {
+
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+
+      expect(thing).to.be.a('object');
+      expect(thing).to.have.keys(['id', 'name', 'description', 'tags', 'customFields']);
+      done();
+    });
+  });
+
+
   it('returns the model', function(done) {
     req.get(rootUrl + '/model', function(err, res, model) {
 
@@ -109,8 +122,22 @@ describe('/', function() {
   });
 
 
-  // Test the homepage!
-    it('returns the homepage of the gateway', function(done) {
+  // HTML views
+  it('returns the properties page', function(done) {
+    req.get(rootUrl + '/properties', {json: false, headers: {
+      'Accept': 'text/html'
+    }}, function(err, res, html) {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+      expect(html).to.be.a('string');
+      expect(html).to.have.string('<!DOCTYPE html>');
+      expect(html).to.have.string('temperature');
+    });
+
+    done();
+  });
+
+  it('returns the homepage of the gateway', function(done) {
       req.get(rootUrl, {json: false, headers: {
         'Accept': 'text/html'
       }}, function(err, res, html) {
@@ -119,9 +146,10 @@ describe('/', function() {
         expect(html).to.be.a('string');
         expect(html).to.have.string('<!DOCTYPE html>');
       });
-
       done();
     });
+
+
 
 
 });
