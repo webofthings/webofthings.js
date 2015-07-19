@@ -6,7 +6,9 @@ function represent(req, res, next) {
   if (req.result) {
     if (req.accepts('html')) {
       //TODO: Vlad: Templating here or in routes directly
-      res.render('index', { result: req.result});
+
+      if (req.type) res.render(req.type, { result: req.result, model: req.model});
+      else res.render('default', { result: req.result});
       return;
     }
 

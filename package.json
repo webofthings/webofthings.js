@@ -4,7 +4,7 @@
   "description": "A Web of Things server for the Pi",
   "main": "wot-pi.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node wot-server.js"
   },
   "author": "dom guinard",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "bl": "^1.0.0",
     "body-parser": "^1.13.1",
     "coap": "^0.10.3",
+    "consolidate": "^0.13.1",
     "cors": "^2.7.1",
     "express": "^4.12.4",
     "handlebars": "^3.0.3",
@@ -43,9 +44,6 @@
     "http-status": "^0.1.8",
     "mocha": "^2.2.5",
     "request": "^2.55.0"
-  },
-  "scripts": {
-    "start": "node wot-server.js"
   },
   "engine": "node >= 0.12.3"
 }

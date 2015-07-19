@@ -10,21 +10,35 @@ exports.create = function (model) {
   createDefaultData(model.links.properties.resources);
   createDefaultData(model.links.actions.resources);
 
-  createModelRoutes(model);
-  createPropertiesRoutes(model.links.properties);
-  createActionsRoutes(model.links.actions);
-
+  // Let's create the routes
   createRootRoute(model);
+  createModelRoutes(model);
+  createPropertiesRoutes(model);
+  createActionsRoutes(model);
 
   return router;
 };
 
 function createRootRoute(model) {
   router.route('/').get(function (req, res, next) {
-    // TODO: Headers
+
+    req.model = model;
+    req.type ='root';
 
     var fields = ['id', 'name', 'description', 'tags', 'customFields'];
     req.result = utils.extractFields(fields, model);
+
+    if (req.accepts('html')) {
+      //TODO: Vlad: Templating here or in routes directly
+      res.render('root', { result: req.result});
+      return;
+    }
+
+    res.links({
+      model: 'http://api.example.com/users?page=2'
+    });
+
+
     next();
   });
 };
@@ -34,13 +48,25 @@ function createModelRoutes(model) {
   // GET /model
   router.route('/model').get(function (req, res, next) {
     req.result = model;
+
+    req.model = model;
+    req.type ='model';
+
+    res.links({
+      next: 'http://api.example.com/users?page=2'
+    });
+
     next();
   });
 };
 
-function createPropertiesRoutes(properties) {
+function createPropertiesRoutes(model) {
+
+  var properties = model.links.properties;
   // GET /properties
   router.route(properties.link).get(function (req, res, next) {
+    req.model = model;
+    req.type ='properties';
     //TODO: must fetch the array of all data for all model
     req.result = transformProperties(properties.resources);
     next();
@@ -48,15 +74,25 @@ function createPropertiesRoutes(properties) {
 
   // GET /properties/{id}
   router.route(properties.link + '/:id').get(function (req, res, next) {
+    req.model = model;
+    req.type ='property';
     req.result = properties.resources[req.params.id].data;
     next();
   });
 };
 
-function createActionsRoutes(actions) {
+function createActionsRoutes(model) {
+
+
+  var actions= model.links.actions;
+
   // GET /actions
   router.route(actions.link).get(function (req, res, next) {
     req.result = transformActions(actions.resources);
+    
+    req.model = model;
+    req.type ='actions';
+
     next();
   });
 
@@ -81,6 +117,15 @@ function createActionsRoutes(actions) {
   // GET /actions/{actionType}
   router.route(actions.link + '/:actionType').get(function (req, res, next) {
     req.result = actions.resources[req.params.actionType].data;
+
+    req.model = model;
+    req.type ='action';
+
+    res.links({
+      next: 'http://api.example.com/users?page=2',
+      last: 'http://api.example.com/users?page=5'
+    });
+
     next();
   });
 

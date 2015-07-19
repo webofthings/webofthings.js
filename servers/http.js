@@ -13,12 +13,16 @@ app.use('/', routesCreator.create(resources));
 
 // Setup all the templating, we use handlebars
 // TODO: Vlad: templating using https://github.com/wycats/handlebars.js/
+
 app.engine('html', cons.handlebars);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/../views');
 
 // For representation design
 //app.use(cors());
+
+app.use(express.static(__dirname + '/../public'));
+
 app.use(converter);
 
 
