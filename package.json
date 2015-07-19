@@ -27,6 +27,7 @@
     "bl": "^1.0.0",
     "body-parser": "^1.13.1",
     "coap": "^0.10.3",
+    "consolidate": "^0.13.1",
     "cors": "^2.7.1",
     "express": "^4.12.4",
     "handlebars": "^3.0.3",
