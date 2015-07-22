@@ -1,15 +1,13 @@
 var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
-  utils = require('./../utils/utils'),
-  _ = require('lodash');
+  utils = require('./../utils/utils');
 
 
 var perPage = 30;
 
 exports.create = function (model) {
 
-  //TODO: Do we really need this? Isn't this injected by the plugins?
   createDefaultData(model.links.properties.resources);
   createDefaultData(model.links.actions.resources);
 
@@ -32,7 +30,6 @@ function createRootRoute(model) {
     var fields = ['id', 'name', 'description', 'tags', 'customFields'];
     req.result = utils.extractFields(fields, model);
 
-    // 
     if (model['@context']) type = model['@context'];
     else type = 'http://model.webofthings.org/';
 
@@ -74,8 +71,7 @@ function createPropertiesRoutes(model) {
     req.type ='properties';
     req.entityId = 'properties';
 
-    //TODO: must fetch the array of all data for all model
-    req.result = transformProperties(properties.resources);
+    req.result = utils.modelToResources(properties.resources, true);
 
     // Generate the Link headers 
     if (properties['@context']) type = properties['@context'];
@@ -115,7 +111,7 @@ function createActionsRoutes(model) {
 
   // GET /actions
   router.route(actions.link).get(function (req, res, next) {
-    req.result = transformActions(actions.resources);
+    req.result = utils.modelToResources(actions.resources, true);
     
     req.model = model;
     req.type ='actions';
@@ -198,27 +194,5 @@ function createDefaultData(resources) {
   });
 }
 
-function transformProperties(properties) {
-  var result = [];
-  Object.keys(properties).forEach(function(key) {
-    var val = properties[key];
-    var property = {};
-    property.id = key;
-    property = utils.extractFields(['name'], val, property);
-    property.values = val.data[0];
-    result.push(property);
-  });
-  return result;
-}
 
-function transformActions(actions) {
-  var result = [];
-  Object.keys(actions).forEach(function(key) {
-    var val = actions[key];
-    var action = {};
-    action.id = key;
-    action = utils.extractFields(['name'], val, action);
-    result.push(action);
-  });
-  return result;
-}
+
