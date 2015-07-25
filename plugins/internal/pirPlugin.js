@@ -3,14 +3,11 @@ var CorePlugin = require('./../corePlugin').CorePlugin,
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
-var sensor;
-var model;
+var sensor, model;
 
 var PirPlugin = exports.PirPlugin = function (params) {
   CorePlugin.call(this, params, 'pir', stop, simulate);
   model = this.model;
-
-  // init
   addData(false);
 };
 
@@ -35,9 +32,10 @@ function simulate() {
 };
 
 function addData(value) {
-  //TODO: support several values: model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
   model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
 };
 
 util.inherits(PirPlugin, CorePlugin);
+
+
 
