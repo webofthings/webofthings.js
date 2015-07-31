@@ -34,10 +34,10 @@ function createRootRoute(model) {
     else type = 'http://model.webofthings.org/';
 
     res.links({
-      model: 'model/',
-      properties: 'properties/',
-      actions: 'actions/',
-      things: 'things/',
+      model: '/model/',
+      properties: '/properties/',
+      actions: '/actions/',
+      things: '/things/',
       type: type
     });
 

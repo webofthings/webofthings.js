@@ -2,7 +2,6 @@ var msgpack = require('msgpack5')(),
   encode = msgpack.encode;
 
 function represent(req, res, next) {
-  console.info('Representation converter middleware called!');
   if (req.result) {
     if (req.accepts('html')) {
 
@@ -15,21 +14,19 @@ function represent(req, res, next) {
         }
       };
 
+      // Check if there's a custom renderer for this type of resource
       if (req.type) res.render(req.type, { req: req , helpers: helpers });
       else res.render('default', { req: req , helpers: helpers });
 
       return;
-    }
-
-    if (req.accepts('application/x-msgpack')) {
-      console.info('MessagePack representation selected!');
+    } else if (req.accepts('application/x-msgpack')) {
       res.type('application/x-msgpack');
       res.send(encode(req.result));
       return;
+    } else { // Resturn JSON by default
+      res.send(req.result);
+      return;      
     }
-    console.info('JSON representation selected!');
-    res.send(req.result);
-    return;
   }
   else if (res.location) {
     res.status(204).send();

@@ -6,15 +6,16 @@ var CorePlugin = require('./../corePlugin').CorePlugin,
 var actuator;
 var model;
 
-var LedsPlugin = exports.LedsPlugin = function (params) {
-  CorePlugin.call(this, params, 'leds', stop, simulate, ['ledState'], switchOnOff);
+var Dht22Plugin = exports.Dht22Plugin = function (params) {
+  //CorePlugin.call(this, params, 'temperature', stop, simulate, null, null);
+  //CorePlugin.call(this, params, 'humidity', stop, simulate, null, null);
   model = this.model;
 
   // init
   addData(false);
 };
 
-LedsPlugin.prototype.connectHardware = function () {
+Dht22Plugin.prototype.connectHardware = function () {
   var Gpio = require('onoff').Gpio;
   actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
   console.info('Hardware %s actuator started!', self.model.name);
@@ -41,5 +42,5 @@ function switchOnOff(changes) {
   });
 };
 
-util.inherits(LedsPlugin, CorePlugin);
+util.inherits(Dht22Plugin, CorePlugin);
 

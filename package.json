@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node wot-server.js"
   },
-  "author": "Dom guinard",
+  "author": "Dom Guinard",
   "author": "Vlad Trifa",
   "license": "Apache-2.0",
   "keywords": [
@@ -33,6 +33,7 @@
     "express": "^4.12.4",
     "handlebars": "^3.0.3",
     "lodash": "^3.10.0",
+    "mdns": "^2.2.9",
     "msgpack5": "^2.3.1",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
