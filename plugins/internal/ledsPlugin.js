@@ -3,21 +3,24 @@ var CorePlugin = require('./../corePlugin').CorePlugin,
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
-var actuator;
-var model;
+var actuator, model;
 
-var LedsPlugin = exports.LedsPlugin = function (params) {
-  CorePlugin.call(this, params, 'leds', stop, simulate, ['ledState'], switchOnOff);
+var LedsPlugin = exports.LedsPlugin = function (params) { //#A
+  CorePlugin.call(this, params, 'leds',
+    stop, simulate, ['ledState'], switchOnOff); //#B
   model = this.model;
-
-  // init
   addData(false);
 };
 
-LedsPlugin.prototype.connectHardware = function () {
-  var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
-  console.info('Hardware %s actuator started!', self.model.name);
+function addData(value) { //#C
+ model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+};
+
+function switchOnOff(changes) { //#D
+  +changes.state;
+  actuator.write(changes.state, function () {
+    console.info('Changed value to %i', changes.state);
+  });
 };
 
 function stop() {
@@ -28,18 +31,17 @@ function simulate() {
   //addData(false);
 };
 
-function addData(value) {
-  // TODO: support several values model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
-  model.data = [{"1" : value, "2" : value, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+LedsPlugin.prototype.connectHardware = function () { //#E
+  var Gpio = require('onoff').Gpio;
+  actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
+  console.info('Hardware %s actuator started!', self.model.name);
 };
 
-function switchOnOff(changes) {
-  +model.value;
-  model.value = (model.value + 1) % 2;
-  actuator.write(model.value, function () {
-    console.info('Changed value to %i', model.value);
-  });
-};
+util.inherits(LedsPlugin, CorePlugin); //#F
 
-util.inherits(LedsPlugin, CorePlugin);
-
+//#A We call the initalization function of the parent plugin (corePlugin.js)
+//#B We pass it the Property we will update (leds) and the Actions we want to observe (ledState) as well as the implementation of what to do when a ledState Action is created (switchOnOff)
+//#C Adds a new data entry to the property in the model
+//#D Changes the state of the LED using the on/off library
+//#E Extends the function connectHardware of corePlugin.js
+//#F Make our LedsPlugin inherit from all the corePlugin.js functionality
