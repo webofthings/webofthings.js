@@ -77,7 +77,6 @@ exports.stop = function () {
   } else {
     clearInterval(pollInterval);
   }
-  console.info('%s plugin stopped!', pluginName);
 };
 
 function simulate() {
@@ -85,7 +84,6 @@ function simulate() {
     me.co2 = utils.randomInt(0, 1000)
     showValue();
   }, localParams.frequency);
-  console.info('Simulated %s sensor started!', pluginName);
 };
 
 function showValue() {

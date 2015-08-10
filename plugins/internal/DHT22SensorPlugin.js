@@ -64,3 +64,12 @@ function showValue() {
   console.info('Temperature: %s C, humidity %s \%',
     model.temperature.value, model.humidity.value);
 };
+
+function addData(t,h) {
+  // TODO: support several values model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
+  model.data = [{"1" : value, "2" : value, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+  model.temperature
+  model.temperature.value = utils.randomInt(0, 40)
+  model.humidity.value = Math.random(0, 100);
+
+};
