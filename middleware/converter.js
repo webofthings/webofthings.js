@@ -1,5 +1,6 @@
 var msgpack = require('msgpack5')(),
-  encode = msgpack.encode;
+  encode = msgpack.encode,
+  jsonld = require('./../resources/piJsonLd.json');
 
 function represent(req, res, next) {
   console.info('Representation converter middleware called!');
@@ -27,9 +28,18 @@ function represent(req, res, next) {
       res.send(encode(req.result));
       return;
     }
+
+    if (req.accepts('application/ld+json')) {
+      console.info('JSON-ld representation selected!');
+      res.send(jsonld);
+      return;
+    }
+
     console.info('JSON representation selected!');
-    res.send(req.result);
+    res.send(jsonld);
     return;
+  }
+
   }
   else if (res.location) {
     res.status(204).send();
