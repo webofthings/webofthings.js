@@ -1,8 +1,8 @@
-var expect = require('chai').expect
-var request = require('request');
-var server = require('../wot-server');
-var status = require('http-status');
-var util = require('util');
+var expect = require('chai').expect,
+  request = require('request'),
+  server = require('../wot-server'),
+  status = require('http-status'),
+  util = require('util');
 
 describe('/', function () {
   var app, req;

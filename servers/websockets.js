@@ -7,7 +7,7 @@ exports.listen = function(server) {
   wss.on('connection', function (ws) { //#B
     var url = ws.upgradeReq.url;
     console.info(url);
-      Object.observeActions(selectResouce(url), function (changes) { //#C
+      Object.observe(selectResouce(url), function (changes) { //#C
         ws.send(JSON.stringify(changes[0].object), function () {
         });
       });
@@ -17,9 +17,12 @@ exports.listen = function(server) {
 function selectResouce(url) { //#D
   var parts = url.split('/');
   parts.shift();
-  var result = resources;
-  for (var i = 0; i < parts.length; i++) {
-    result = result[parts[i]];
+
+  var result;
+  if(parts[0] == 'actions') {
+    result = resources.links.actions.resources[parts[1]].data;
+  } else {
+    result = resources.links.properties.resources[parts[1]].data;
   }
   return result;
 }
