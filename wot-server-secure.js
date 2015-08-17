@@ -1,12 +1,12 @@
 var restApp = require('./servers/http'),
   wsServer = require('./servers/websockets'),
   resources = require('./resources/model'),
-  https = require('https'),
+  https = require('https'), //#A
   fs = require('fs');
 
-var key_file = './resources/change_me_privateKey.pem'; //#A
-var cert_file = './resources/change_me_caCert.pem'; //#B
-var passphrase = 'webofthings'; //#C
+var key_file = './resources/change_me_privateKey.pem'; //#B
+var cert_file = './resources/change_me_caCert.pem'; //#C
+var passphrase = 'webofthings'; //#D
 
 var config = {
   key: fs.readFileSync(key_file),
@@ -14,19 +14,18 @@ var config = {
   passphrase: passphrase
 };
 
-
 var createServer = function (port) {
   if (port === undefined) {
     port = resources.customFields.port;
   }
 
   // HTTP server
-  return server = https.createServer(config, restApp) //#D
+  return server = https.createServer(config, restApp) //#E
     .listen(port, function () {
       console.log('HTTPs server started...');
 
       // Websockets server
-      wsServer.listen(server);
+      wsServer.listen(server); //#F
 
       // Plugins
       // -- Internal Plugins
@@ -46,7 +45,9 @@ var createServer = function (port) {
 
 module.exports = createServer;
 
-//#A This is the private key of the server that we generated before
-//#B This is the actual certificate of the server
-//#C This is the password of the private key
-
+//#A We import the https module
+//#B The private key of the server that we generated before
+//#D The actual certificate of the server
+//#D The password of the private key
+//#E We create an HTTPS server and pass it the config object
+//#F By passing it the server we create, the Websocket library will automatically detect and enable the TLS support
