@@ -4,8 +4,7 @@ var express = require('express'),
   converter = require('./../middleware/converter'),
   bodyParser = require('body-parser'),
   cons = require('consolidate'),
-  cors = require('cors'),
-  mdns = require('mdns');
+  cors = require('cors');
 
 var app = express();
 app.use(bodyParser.json());
