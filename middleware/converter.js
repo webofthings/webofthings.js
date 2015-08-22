@@ -20,13 +20,12 @@ function represent(req, res, next) {
       else res.render('default', { req: req , helpers: helpers });
 
       return;
-    } else if (req.accepts('application/x-msgpack')) {
+    }
+
+    if (req.accepts('application/x-msgpack')) {
       res.type('application/x-msgpack');
       res.send(encode(req.result));
       return;
-    } else { // Return JSON by default
-      res.send(req.result);
-      return;      
     }
 
     if (req.accepts('application/ld+json')) {
@@ -34,8 +33,9 @@ function represent(req, res, next) {
       res.send(jsonld);
       return;
     }
+
     console.info('JSON representation selected!');
-    res.send(jsonld);
+    res.send(req.result);
     return;
     
   }

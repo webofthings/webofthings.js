@@ -10,8 +10,9 @@ var PirPlugin = exports.PirPlugin = function (params) {
   model = this.model;
   addData(false);
 };
+util.inherits(PirPlugin, CorePlugin);
 
-CorePlugin.prototype.connectHardware = function () {
+PirPlugin.prototype.connectHardware = function () {
   var Gpio = require('onoff').Gpio;
   var self = this;
   sensor = new Gpio(self.model.values.presence.customFields.gpio, 'in', 'both');
@@ -35,7 +36,6 @@ function addData(value) {
   model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
 };
 
-util.inherits(PirPlugin, CorePlugin);
 
 
 

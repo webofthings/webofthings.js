@@ -11,6 +11,7 @@ var LedsPlugin = exports.LedsPlugin = function (params) { //#A
   model = this.model;
   addData(false);
 };
+util.inherits(LedsPlugin, CorePlugin); //#F
 
 function addData(value) { //#C
  model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
@@ -37,7 +38,7 @@ LedsPlugin.prototype.connectHardware = function () { //#E
   console.info('Hardware %s actuator started!', self.model.name);
 };
 
-util.inherits(LedsPlugin, CorePlugin); //#F
+
 
 //#A We call the initalization function of the parent plugin (corePlugin.js)
 //#B We pass it the Property we will update (leds) and the Actions we want to observe (ledState) as well as the implementation of what to do when a ledState Action is created (switchOnOff)

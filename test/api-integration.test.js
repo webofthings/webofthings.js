@@ -150,6 +150,23 @@ describe('/', function () {
   });
 
 
+  // JSONLD
+  it('returns the root page in JSON-LD', function (done) {
+    req.get(rootUrl, {
+      json: false, headers: {
+        'Accept': 'application/ld+json'
+      }
+    }, function (err, res, jsonld) {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+      expect(jsonld).to.be.a('string');
+      expect(jsonld).to.contain('@context');
+      expect(jsonld).to.contain('@id');
+    });
+
+    done();
+  });
+
   // HTML views
   it('returns the properties page', function (done) {
     req.get(rootUrl + '/properties', {
