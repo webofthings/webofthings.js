@@ -33,7 +33,6 @@
     "express": "^4.12.4",
     "handlebars": "^3.0.3",
     "lodash": "^3.10.0",
-    "mdns": "^2.2.9",
     "msgpack5": "^2.3.1",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
@@ -41,8 +40,9 @@
     "ws": "^0.7.2"
   },
   "optionalDependencies": {
-  "onoff": "^1.0.2",
-  "node-dht-sensor": "^0.0.8"
+    "onoff": "^1.0.2",
+    "node-dht-sensor": "^0.0.8",
+    "mdns": "^2.2.9"
   },
   "devDependencies": {
     "assert": "^1.3.0",
