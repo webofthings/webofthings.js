@@ -6,8 +6,7 @@ var express = require('express'),
   keys = require('../resources/auth'),
   bodyParser = require('body-parser'),
   cons = require('consolidate'),
-  cors = require('cors'),
-  utils = require('../utils/utils');
+  cors = require('cors');
 
 var app = express();
 
