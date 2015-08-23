@@ -34,6 +34,7 @@ function simulate() {
 
 LedsPlugin.prototype.connectHardware = function () { //#E
   var Gpio = require('onoff').Gpio;
+  var self = this;
   actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
   console.info('Hardware %s actuator started!', self.model.name);
 };
