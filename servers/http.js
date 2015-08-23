@@ -8,6 +8,7 @@ var express = require('express'),
 
 var app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/', routesCreator.create(resources));
 
@@ -15,9 +16,6 @@ app.use('/', routesCreator.create(resources));
 app.engine('html', cons.handlebars);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/../views');
-
-// For representation design
-app.use(cors());
 
 // Set the public folder (for .css & co)
 app.use(express.static(__dirname + '/../public'));
