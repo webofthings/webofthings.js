@@ -1,10 +1,11 @@
 var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
+ // jwt = require('jsonwebtoken'),
   utils = require('./../utils/utils');
 
-
 var perPage = 30;
+
 
 exports.create = function (model) {
 
@@ -31,7 +32,7 @@ function createRootRoute(model) {
     req.result = utils.extractFields(fields, model);
 
     if (model['@context']) type = model['@context'];
-    else type = 'http://model.webofthings.org/';
+    else type = 'http://model.webofthings.io/';
 
     res.links({
       model: '/model/',
@@ -75,7 +76,7 @@ function createPropertiesRoutes(model) {
 
     // Generate the Link headers 
     if (properties['@context']) type = properties['@context'];
-    else type = 'http://model.webofthings.org/properties';
+    else type = 'http://model.webofthings.io/#properties-resource';
 
     res.links({
       type: type
@@ -95,7 +96,7 @@ function createPropertiesRoutes(model) {
 
     // Generate the Link headers 
     if (properties.resources[req.params.id]['@context']) type = properties.resources[req.params.id]['@context'];
-    else type = 'http://model.webofthings.org/properties';
+    else type = 'http://model.webofthings.io/#properties-resource';
 
     res.links({
       type: type
@@ -118,7 +119,7 @@ function createActionsRoutes(model) {
     req.entityId = 'actions';
 
     if (actions['@context']) type = actions['@context'];
-    else type = 'http://model.webofthings.org/actions';
+    else type = 'http://model.webofthings.io/#actions-resource';
 
     res.links({
       type: type
@@ -154,7 +155,7 @@ function createActionsRoutes(model) {
 
 
     if (actions.resources[req.params.actionType]['@context']) type = actions.resources[req.params.actionType]['@context'];
-    else type = 'http://model.webofthings.org/actions';
+    else type = 'http://model.webofthings.io/#actions-resource';
 
     res.links({
       type: type

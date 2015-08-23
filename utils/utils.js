@@ -1,4 +1,5 @@
 var model = require('./../resources/model'),
+  crypto = require('crypto'),
   _ = require('lodash/collection');
 
 exports.addDevice = function(id, name, description, sensors, actuators) {
@@ -53,3 +54,20 @@ exports.modelToResources = function(subModel, withValue) {
   });
   return resources;
 };
+
+// Generate a unique API Key
+exports.generateApiToken = function(length, chars) {
+  if (!length) length = 32;
+  if (!chars) chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var randomBytes = crypto.randomBytes(length);
+  var result = new Array(length);
+
+  var cursor = 0;
+  for (var i = 0; i < length; i++) {
+    cursor += randomBytes[i];
+    result[i] = chars[cursor % chars.length];
+  }
+
+  return result.join('');
+};
+
