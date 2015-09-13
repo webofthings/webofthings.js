@@ -15,8 +15,8 @@ util.inherits(LedsPlugin, CorePlugin); //#F
 
 function addData(value) { //#C
   //TODO: Fix the size of the array
-  model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"});
- //model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+  model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
+ //model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()}];
 };
 
 function switchOnOff(changes) { //#D
@@ -31,7 +31,7 @@ function stop() {
 };
 
 function simulate() {
-  //addData(false);
+  addData(false);
 };
 
 LedsPlugin.prototype.connectHardware = function () { //#E

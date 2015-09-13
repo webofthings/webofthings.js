@@ -51,7 +51,7 @@ CorePlugin.prototype.connectHardware = function () {
 };
 
 CorePlugin.prototype.showValue = function () {
-  console.info('Current value for %s is %s', this.model.name, util.inspect(this.model.data[0]));
+  console.info('Current value for %s is %s', this.model.name, util.inspect(this.model.data[this.model.data.length-1]));
 };
 
 CorePlugin.prototype.observeActions = function () {
