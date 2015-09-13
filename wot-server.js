@@ -11,7 +11,7 @@ var createServer = function (port) {
   // HTTP server
   return server = http.createServer(restApp)
     .listen(port, function () {
-    console.log('HTTP server started...');
+    console.log('HTTP server started on port: %d', port);
 
     // Websockets server
     wsServer.listen(server);

@@ -2,25 +2,24 @@ var keys = require('../resources/auth');
 
 exports.simpleTokenAuth = function(req, res, next) {
   console.log(req.method + " " + req.path);
-  ignoreCSS(next); //#A
+  if (req.path.substring(0, 5) === "/css/") {
+    next(); //#A
 
-  var token = req.body.token || req.param('token') || req.headers['Authorization']; //#B
-
-  if (!token) { //#C
-    return res.status(401).send({success: false, message: 'API token missing.'});
   } else {
-    if (token != keys.apiToken) { //#D
-      return res.status(403).send({success: false, message: 'API token invalid.'});
-    } else { //#E
-      //req.decoded = decoded;
-      next();
+    var token = req.body.token || req.headers['authorization'] || req.param('token')//#B
+
+    if (!token) { //#C
+      return res.status(401).send({success: false, message: 'API token missing.'});
+    } else {
+      if (token != keys.apiToken) { //#D
+        return res.status(403).send({success: false, message: 'API token invalid.'});
+      } else { //#E
+        //req.decoded = decoded;
+        next();
+      }
     }
   }
 };
-
-function ignoreCSS(next) {
-  if (req.path.substring(0, 5) === "/css/") next();
-}
 //#A Allow unauthorized access to the css folder
 //#B check header or url parameters or post parameters for token 
 //#C If no token provided, return 401 UNAUTHORIZED 

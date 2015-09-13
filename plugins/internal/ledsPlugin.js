@@ -14,7 +14,9 @@ var LedsPlugin = exports.LedsPlugin = function (params) { //#A
 util.inherits(LedsPlugin, CorePlugin); //#F
 
 function addData(value) { //#C
- model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+  //TODO: Fix the size of the array
+  model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"});
+ //model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
 };
 
 function switchOnOff(changes) { //#D

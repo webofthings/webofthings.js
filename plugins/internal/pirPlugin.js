@@ -8,7 +8,7 @@ var sensor, model;
 var PirPlugin = exports.PirPlugin = function (params) {
   CorePlugin.call(this, params, 'pir', stop, simulate);
   model = this.model;
-  addData(false);
+  addData(true);
 };
 util.inherits(PirPlugin, CorePlugin);
 
@@ -33,7 +33,9 @@ function simulate() {
 };
 
 function addData(value) {
-  model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
+  //TODO: Fix the size of the array
+  model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
+  //model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
 };
 
 
