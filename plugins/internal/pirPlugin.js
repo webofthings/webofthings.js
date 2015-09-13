@@ -29,7 +29,7 @@ function stop() {
 };
 
 function simulate() {
-  //addData(false);
+  addData(false);
 };
 
 function addData(value) {
