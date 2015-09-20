@@ -25,6 +25,3 @@ exports.simpleTokenAuth = function(req, res, next) {
 //#C If no token provided, return 401 UNAUTHORIZED 
 //#D If token is not a valid API key, return 403 FORBIDDEN 
 //#E If everything is good, save to request for use in other routes
-
-
-

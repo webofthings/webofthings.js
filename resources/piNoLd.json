@@ -8,6 +8,7 @@
     "WoT"
   ],
   "customFields": {
+    "hostname":"localhost",
     "port": 8484
   },
   "links": {
@@ -107,7 +108,8 @@
           "description": "Change the state of an LED",
           "values": {
             "ledId": {
-              "type": "string",
+              "type": "enum",
+              "enum":{"1":"LED 1","2":"LED 2","ALL":"All LEDs"},
               "required": true
             },
             "state": {

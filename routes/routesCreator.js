@@ -66,6 +66,8 @@ function createModelRoutes(model) {
 function createPropertiesRoutes(model) {
 
   var properties = model.links.properties;
+
+
   // GET /properties
   router.route(properties.link).get(function (req, res, next) {
     req.model = model;
@@ -161,6 +163,7 @@ function createActionsRoutes(model) {
       type: type
     });
 
+    // FIXME: correct pagination
     res.links({
       type: type,
       next: 'http://api.example.com/users?page=2',

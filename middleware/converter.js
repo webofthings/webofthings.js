@@ -15,7 +15,7 @@ function represent(req, res, next) {
         }
       };
 
-      // Check if there's a custom renderer for this type of resource
+      // Check if there's a custom renderer for this media type and resource
       if (req.type) res.render(req.type, { req: req , helpers: helpers });
       else res.render('default', { req: req , helpers: helpers });
 
