@@ -4,8 +4,8 @@ var restApp = require('./servers/http'),
   https = require('https'), //#A
   fs = require('fs');
 
-var key_file = './resources/privateKey.pem'; //#B
-var cert_file = './resources/caCert.pem'; //#C
+var key_file = './resources/change_me_privateKey.pem'; //#B
+var cert_file = './resources/change_me_caCert.pem'; //#C
 var passphrase = 'webofthings'; //#D
 
 var config = {
