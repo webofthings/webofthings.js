@@ -4,8 +4,8 @@ var restApp = require('./servers/http'),
   https = require('https'), //#A
   fs = require('fs');
 
-var key_file = './resources/change_me_privateKey.pem'; //#B
-var cert_file = './resources/change_me_caCert.pem'; //#C
+var key_file = './resources/privateKey.pem'; //#B
+var cert_file = './resources/caCert.pem'; //#C
 var passphrase = 'webofthings'; //#D
 
 var config = {
@@ -33,10 +33,10 @@ var createServer = function (port) {
       var PirPlugin = require('./plugins/internal/pirPlugin').PirPlugin;
       var Dht22Plugin = require('./plugins/internal/dht22Plugin').Dht22Plugin;
 
-      var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 2000});
+      var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 30000});
       pirPlugin.start();
 
-      var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 2000});
+      var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 30000});
       ledsPlugin.start();
 
       //var dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 2000});

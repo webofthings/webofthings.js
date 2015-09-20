@@ -22,10 +22,10 @@ var createServer = function (port) {
     var PirPlugin = require('./plugins/internal/pirPlugin').PirPlugin;
     var Dht22Plugin = require('./plugins/internal/dht22Plugin').Dht22Plugin;
 
-    var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 2000});
+    var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 30000});
     pirPlugin.start();
 
-    var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 2000});
+    var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 30000});
     ledsPlugin.start();
 
     console.info('Your WoT Pi is up and running on port %s', port);
