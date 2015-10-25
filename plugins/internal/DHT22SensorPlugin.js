@@ -30,7 +30,7 @@ function connectHardware() {
  var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      return sensorDriver.initialize(22, 21);
+      return sensorDriver.initialize(22, model.temperature.gpio);
     },
     read: function () {
       var readout = sensorDriver.read();
@@ -53,7 +53,7 @@ function connectHardware() {
 
 function simulate() {
   interval = setInterval(function () {
-    model.temperature.value = utils.randomInt(0, 40)
+    model.temperature.value = utils.randomInt(0, 40);
     model.humidity.value = Math.random(0, 100);
     showValue();
   }, localParams.frequency);
@@ -68,8 +68,8 @@ function showValue() {
 function addData(t,h) {
   // TODO: support several values model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
   model.data = [{"1" : value, "2" : value, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
-  model.temperature
-  model.temperature.value = utils.randomInt(0, 40)
+  model.temperature;
+  model.temperature.value = utils.randomInt(0, 40);
   model.humidity.value = Math.random(0, 100);
 
 };

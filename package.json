@@ -1,11 +1,12 @@
 {
-  "name": "wot-pi",
+  "name": "wot-pi-framework",
   "version": "1.0.0",
-  "description": "A Web of Things server for the Pi",
+  "description": "A Web of Things framework for Linux based devices.",
   "main": "wot-pi.js",
   "scripts": {
     "start": "node wot-server.js"
   },
+  "author": "Dominique Guinard",
   "author": "Vlad Trifa",
   "license": "Apache-2.0",
   "keywords": [
@@ -16,12 +17,15 @@
     "HTTP",
     "mqtt",
     "pi",
+    "raspberry",
     "coap",
     "m2m",
     "iot",
     "tcp",
     "internet of things",
-    "messaging"
+    "messaging",
+    "jsondld",
+    "messagepack"
   ],
   "dependencies": {
     "bl": "^1.0.0",
@@ -33,14 +37,14 @@
     "express": "^4.12.4",
     "handlebars": "^3.0.3",
     "lodash": "^3.10.0",
-    "msgpack5": "^2.3.1",
+    "msgpack5": "^3.2.0",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
     "observed": "^1.1.1",
     "ws": "^0.7.2"
   },
   "optionalDependencies": {
-    "onoff": "^1.0.2",
+    "onoff": "^1.0.3",
     "node-dht-sensor": "^0.0.8"
   },
   "devDependencies": {

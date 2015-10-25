@@ -1,3 +1,4 @@
+//TODO: Take code from chapter 7
 var CorePlugin = require('./../corePlugin').CorePlugin,
   resources = require('./../../resources/model'),
   util = require('util'),
