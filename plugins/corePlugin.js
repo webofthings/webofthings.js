@@ -46,8 +46,7 @@ CorePlugin.prototype.simulate = function () {
 };
 
 CorePlugin.prototype.connectHardware = function () {
-  throw new Error('connectedHardware() should be implemented by Plugin')
-  console.info('[plugin hardware connected] %s', this.model.name);
+  throw new Error('connectedHardware() should be implemented by Plugin');
 };
 
 CorePlugin.prototype.showValue = function () {

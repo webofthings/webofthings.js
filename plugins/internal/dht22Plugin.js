@@ -3,22 +3,40 @@ var CorePlugin = require('./../corePlugin').CorePlugin,
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
-var actuator;
-var model;
+var modelTemperature, modelHumidity;
 
 var Dht22Plugin = exports.Dht22Plugin = function (params) {
-  //CorePlugin.call(this, params, 'temperature', stop, simulate, null, null);
-  //CorePlugin.call(this, params, 'humidity', stop, simulate, null, null);
-  model = this.model;
+  CorePlugin.call(this, params, 'temperature', stop, simulate, null, null);
+  modelTemperature = this.model;
+  modelHumidity = utils.findProperty('humidity');
 
   // init
-  addData(false);
+  addData([0, 0]);
 };
 
 Dht22Plugin.prototype.connectHardware = function () {
-  var Gpio = require('onoff').Gpio;
-  actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
-  console.info('Hardware %s actuator started!', self.model.name);
+  var sensorDriver = require('node-dht-sensor');
+  var sensor = {
+    initialize: function () {
+      return sensorDriver.initialize(22, model.temperature.gpio);
+    },
+    read: function () {
+      var readout = sensorDriver.read();
+      modelTemperature.value = parseFloat(readout.temperature.toFixed(2));
+      modelHumidity.value = parseFloat(readout.humidity.toFixed(2));
+      showValue();
+
+      setTimeout(function () {
+        sensor.read();
+      }, localParams.frequency);
+    }
+  };
+  if (sensor.initialize()) {
+    console.info('Hardware %s sensor started!', pluginName);
+    sensor.read();
+  } else {
+    console.warn('Failed to initialize sensor!');
+  }
 };
 
 function stop() {
@@ -26,20 +44,17 @@ function stop() {
 };
 
 function simulate() {
-  //addData(false);
+  addData([utils.randomInt(0, 40), utils.randomInt(20, 100)]);
 };
 
 function addData(value) {
-  // TODO: support several values model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
-  model.data = [{"1" : value, "2" : value, "timestamp" : utils.isoTimestamp(), "status" : "completed"}];
+  modelTemperature.data.push({"t": value[0], "timestamp": utils.isoTimestamp()});
+  modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
 };
 
-function switchOnOff(changes) {
-  +model.value;
-  model.value = (model.value + 1) % 2;
-  actuator.write(model.value, function () {
-    console.info('Changed value to %i', model.value);
-  });
+function showValue() {
+  console.info('Temperature: %s C, humidity %s \%',
+    modelTemperature.value, modelHumidity.value);
 };
 
 util.inherits(Dht22Plugin, CorePlugin);

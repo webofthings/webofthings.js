@@ -39,8 +39,8 @@ var createServer = function (port) {
       var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 30000});
       ledsPlugin.start();
 
-      //var dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 2000});
-      //dht22Plugin.start();
+      var dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 20000});
+      dht22Plugin.start();
 
 
       console.info('Your WoT Pi is up and running on port %s', port);

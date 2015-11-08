@@ -24,7 +24,7 @@
           "name": "Temperature Sensor",
           "description": "An ambient temperature sensor.",
           "values": {
-            "temp": {
+            "t": {
               "name": "Temperature sensor",
               "description": "The temperature in celsius",
               "unit": "celsius",
