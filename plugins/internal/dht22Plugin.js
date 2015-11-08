@@ -46,7 +46,7 @@ Dht22Plugin.prototype.connectHardware = function () {
 
       setTimeout(function () {
         sensor.read();
-      }, localParams.frequency);
+      }, 2000);
     }
   };
   if (sensor.initialize()) {
