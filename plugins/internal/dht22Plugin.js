@@ -50,7 +50,7 @@ Dht22Plugin.prototype.connectHardware = function () {
     }
   };
   if (sensor.initialize()) {
-    console.info('Hardware %s sensor started!', pluginName);
+    console.info('Hardware %s sensor started!', self.model.name);
     sensor.read();
   } else {
     console.warn('Failed to initialize sensor!');
