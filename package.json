@@ -1,6 +1,6 @@
 {
   "name": "wot-pi-framework",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "A Web of Things framework for Linux based devices.",
   "main": "wot-pi.js",
   "scripts": {

@@ -13,6 +13,25 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
   // init
   addData([0, 0]);
 };
+util.inherits(Dht22Plugin, CorePlugin);
+
+function stop() {
+  actuator.unexport();
+};
+
+function simulate() {
+  addData([utils.randomInt(0, 40), utils.randomInt(20, 100)]);
+};
+
+function addData(value) {
+  modelTemperature.data.push({"t": value[0], "timestamp": utils.isoTimestamp()});
+  modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
+};
+
+function showValue() {
+  console.info('Temperature: %s C, humidity %s \%',
+    modelTemperature.value, modelHumidity.value);
+};
 
 Dht22Plugin.prototype.connectHardware = function () {
   var sensorDriver = require('node-dht-sensor');
@@ -39,23 +58,4 @@ Dht22Plugin.prototype.connectHardware = function () {
   }
 };
 
-function stop() {
-  actuator.unexport();
-};
-
-function simulate() {
-  addData([utils.randomInt(0, 40), utils.randomInt(20, 100)]);
-};
-
-function addData(value) {
-  modelTemperature.data.push({"t": value[0], "timestamp": utils.isoTimestamp()});
-  modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
-};
-
-function showValue() {
-  console.info('Temperature: %s C, humidity %s \%',
-    modelTemperature.value, modelHumidity.value);
-};
-
-util.inherits(Dht22Plugin, CorePlugin);
 
