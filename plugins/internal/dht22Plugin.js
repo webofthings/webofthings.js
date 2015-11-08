@@ -37,11 +37,11 @@ Dht22Plugin.prototype.connectHardware = function () {
   var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      return sensorDriver.initialize(22, modelTemperature.gpio);
+      return sensorDriver.initialize(22, modelTemperature.values.t.customFields.gpio);
     },
     read: function () {
       var readout = sensorDriver.read();
-      addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2)]);
+      addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
       showValue();
 
       setTimeout(function () {
