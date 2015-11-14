@@ -28,10 +28,9 @@ function addData(value) {
   modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
 }
 
-/* function showValue() {
-  console.info('Temperature: %s C, humidity %s \%',
-    modelTemperature.value, modelHumidity.value);
-} */
+Dht22Plugin.prototype.showValue = function() {
+  console.info('Temperature: %s C, humidity %s \%', modelTemperature.value, modelHumidity.value);
+};
 
 Dht22Plugin.prototype.connectHardware = function () {
   self = this;
