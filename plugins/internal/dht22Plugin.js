@@ -43,6 +43,7 @@ Dht22Plugin.prototype.connectHardware = function () {
     },
     read: function () {
       var readout = sensorDriver.read();
+      console.log('temperature, %s', parseFloat(readout.temperature.toFixed(2));
       addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
       showValue();
 
