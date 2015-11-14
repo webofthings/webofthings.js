@@ -17,27 +17,28 @@ util.inherits(Dht22Plugin, CorePlugin);
 
 function stop() {
   actuator.unexport();
-};
+}
 
 function simulate() {
   addData([utils.randomInt(0, 40), utils.randomInt(20, 100)]);
-};
+}
 
 function addData(value) {
   modelTemperature.data.push({"t": value[0], "timestamp": utils.isoTimestamp()});
   modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
-};
+}
 
 function showValue() {
   console.info('Temperature: %s C, humidity %s \%',
     modelTemperature.value, modelHumidity.value);
-};
+}
 
 Dht22Plugin.prototype.connectHardware = function () {
+  self = this;
   var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      return sensorDriver.initialize(22, modelTemperature.values.t.customFields.gpio);
+      return sensorDriver.initialize(22, self.model.values.t.customFields.gpio);
     },
     read: function () {
       var readout = sensorDriver.read();
@@ -50,7 +51,7 @@ Dht22Plugin.prototype.connectHardware = function () {
     }
   };
   if (sensor.initialize()) {
-    console.info('Hardware %s sensor started!', this.model.name);
+    console.info('Hardware %s sensor started!', self.model.name);
     sensor.read();
   } else {
     console.warn('Failed to initialize sensor!');
