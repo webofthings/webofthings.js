@@ -38,7 +38,7 @@ Dht22Plugin.prototype.connectHardware = function () {
   var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      Console.log('GPIO, %s', self.model.values.t.customFields.gpio);
+      console.log('GPIO, %s', self.model.values.t.customFields.gpio);
       return sensorDriver.initialize(22, self.model.values.t.customFields.gpio);
     },
     read: function () {
