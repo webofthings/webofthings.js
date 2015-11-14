@@ -9,7 +9,8 @@
   ],
   "customFields": {
     "hostname":"localhost",
-    "port": 8484
+    "port": 8484,
+    "secure": true
   },
   "links": {
     "product": {

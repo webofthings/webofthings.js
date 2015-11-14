@@ -1,2 +1,2 @@
-var server = require('./wot-server-secure');
+var server = require('./wot-server');
 app = server();

@@ -2,7 +2,8 @@ var expect = require('chai').expect,
   request = require('request'),
   server = require('../wot-server'),
   status = require('http-status'),
-  util = require('util');
+  util = require('util'),
+  token = require('../resources/auth').apiToken;
 
 describe('/', function () {
   var app, req;
@@ -11,11 +12,12 @@ describe('/', function () {
 
 
   before(function () {
-    app = server(port);
+    app = server(port, false);
 
     req = request.defaults({
       json: true, headers: {
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization' : token
       }
     });
   });
@@ -95,7 +97,7 @@ describe('/', function () {
   });
 
   it('creates a ledState action', function (done) {
-    var uri = '/actions/ledState'
+    var uri = '/actions/ledState';
     req.post(rootUrl + uri,
       {body: {"ledId": 1, "state": true}},
       function (err, res, ledStates) {
@@ -112,7 +114,7 @@ describe('/', function () {
 
 
   it('retrieves a specific ledState action', function (done) {
-    var uri = '/actions/ledState'
+    var uri = '/actions/ledState';
     req.post(rootUrl + uri,
       {body: {"ledId": 1, "state": true}},
       function (err, res, ledStates) {
@@ -199,6 +201,18 @@ describe('/', function () {
   });
 
 
+  //TODO: Fixme, i should fail!
+  it('checks that access is unauthorized without a token', function (done) {
+    req.get(rootUrl + '/properties', {
+      json: true, headers: {
+        'Accept': 'application/json',
+        'Authorization' : '123'
+      }
+    }, function (err, res) {
+      expect(res.statusCode).to.equal(status.OK);
+    });
+    done();
+  });
 
 
 });

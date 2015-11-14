@@ -59,7 +59,7 @@ CorePlugin.prototype.observeActions = function () {
     Object.observe(resources.links.actions.resources[actionId].data, function (changes) {
       var action = changes[0].object[0];
       console.info('[plugin action detected] %s', actionId);
-      if (self.doAction) self.doAction(action);
+      if (self.doAction && !self.params.simulate) self.doAction(action);
     }, ['add']);
   });
 };

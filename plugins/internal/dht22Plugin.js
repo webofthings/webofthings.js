@@ -29,8 +29,7 @@ function addData(value) {
 }
 
 function showValue() {
-  console.info('Temperature: %s C', modelTemperature.data[modelTemperature.data.length-1].t);
-  console.info('Humidity: %s \%', modelHumidity.data[modelHumidity.data.length-1].h);
+  console.info('Temperature: %s C, Humidity: %s \%', modelTemperature.data[modelTemperature.data.length-1].t, modelHumidity.data[modelHumidity.data.length-1].h);
 }
 
 Dht22Plugin.prototype.connectHardware = function () {
