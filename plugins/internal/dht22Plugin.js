@@ -28,9 +28,9 @@ function addData(value) {
   modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
 }
 
-function showStuff() {
+function showValue() {
   console.info('Temperature: %s C', modelTemperature.data[modelTemperature.data.length-1].t);
-  console.info('Humidity: %s \%', modelHumidity.data[modelHumidity.data.length-1].t);
+  console.info('Humidity: %s \%', modelHumidity.data[modelHumidity.data.length-1].h);
 }
 
 Dht22Plugin.prototype.connectHardware = function () {
@@ -44,7 +44,7 @@ Dht22Plugin.prototype.connectHardware = function () {
     read: function () {
       var readout = sensorDriver.read();
       addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
-      showStuff();
+      showValue();
 
       setTimeout(function () {
         sensor.read();
