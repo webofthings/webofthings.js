@@ -8,7 +8,7 @@ var modelTemperature, modelHumidity;
 var Dht22Plugin = exports.Dht22Plugin = function (params) {
   CorePlugin.call(this, params, 'temperature', stop, simulate, null, null);
   modelTemperature = this.model;
-  Dht22Plugin.prototype.modelHumidity = utils.findProperty('humidity');
+  modelHumidity = utils.findProperty('humidity');
 
   // init
   addData([0, 0]);
@@ -28,10 +28,10 @@ function addData(value) {
   modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
 }
 
-Dht22Plugin.prototype.showValue = function() {
-  console.info('Temperature: %s C', this.model.data[this.model.data.length-1].t);
-  console.info('Humidity: %s \%', this.modelHumidity.data[this.modelHumidity.data.length-1].t);
-};
+function showValue() {
+  console.info('Temperature: %s C', modelTemperature.data[modelTemperature.data.length-1].t);
+  console.info('Humidity: %s \%', modelHumidity.data[modelHumidity.data.length-1].t);
+}
 
 Dht22Plugin.prototype.connectHardware = function () {
   self = this;
