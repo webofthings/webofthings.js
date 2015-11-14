@@ -28,22 +28,21 @@ function addData(value) {
   modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
 }
 
-function showValue() {
+/* function showValue() {
   console.info('Temperature: %s C, humidity %s \%',
     modelTemperature.value, modelHumidity.value);
-}
+} */
 
 Dht22Plugin.prototype.connectHardware = function () {
   self = this;
   var sensorDriver = require('node-dht-sensor');
   var sensor = {
     initialize: function () {
-      console.log('GPIO, %s', self.model.values.t.customFields.gpio);
+      console.log('Starting DHT Sensor on GPIO, %s', self.model.values.t.customFields.gpio);
       return sensorDriver.initialize(22, self.model.values.t.customFields.gpio);
     },
     read: function () {
       var readout = sensorDriver.read();
-      console.log('temperature, %s', parseFloat(readout.temperature.toFixed(2));
       addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
       showValue();
 
