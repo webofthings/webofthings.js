@@ -35,7 +35,6 @@ function simulate() {
 function addData(value) {
   //TODO: Fix the size of the array
   model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
-  //model.data = [{"presence": value, "timestamp": utils.isoTimestamp()}];
 };
 
 
