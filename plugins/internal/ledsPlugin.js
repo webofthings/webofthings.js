@@ -16,7 +16,7 @@ util.inherits(LedsPlugin, CorePlugin); //#F
 function switchOnOff(value) { //#D
   if (!this.params.simulate) {
     actuator.write(value.state === true ? 1 : 0, function () {
-      console.info('Changed value of %s to %s', this.model.name, value.state);
+      console.info('Changed value of %s to %s', model.name, value.state);
       this.addValue(value.state);
     });
   } else {
