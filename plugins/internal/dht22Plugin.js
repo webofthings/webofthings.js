@@ -11,7 +11,7 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
   modelHumidity = utils.findProperty('humidity');
 
   // init
-  this.addValues([0, 0]);
+  this.addValue([0, 0]);
 };
 util.inherits(Dht22Plugin, CorePlugin);
 
