@@ -33,8 +33,8 @@ function showValue() {
 }
 
 Dht22Plugin.prototype.connectHardware = function () {
-  self = this;
   var sensorDriver = require('node-dht-sensor');
+  var self = this;
   var sensor = {
     initialize: function () {
       console.log('Starting DHT Sensor on GPIO, %s', self.model.values.t.customFields.gpio);
@@ -42,8 +42,8 @@ Dht22Plugin.prototype.connectHardware = function () {
     },
     read: function () {
       var readout = sensorDriver.read();
-      addValue([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
-      showValue();
+      self.addValue([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
+      self.showValue();
 
       setTimeout(function () {
         sensor.read();
