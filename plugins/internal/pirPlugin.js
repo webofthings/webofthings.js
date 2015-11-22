@@ -30,8 +30,8 @@ PirPlugin.prototype.connectHardware = function () {
   sensor = new Gpio(self.model.values.presence.customFields.gpio, 'in', 'both');
   sensor.watch(function (err, value) {
     if (err) exit(err);
-    self.showValue();
     self.addValue(!!value);
+    self.showValue();
   });
   console.info('Hardware %s sensor started!', self.model.name);
 };
