@@ -17,10 +17,10 @@ function switchOnOff(value) { //#D
   if (!this.params.simulate) {
     actuator.write(value.state === true ? 1 : 0, function () {
       console.info('Changed value of %s to %s', model.name, value.state);
-      this.addValue(value.state);
+      addValue(value.state);
     });
   } else {
-    this.addValue(value.state);
+    addValue(value.state);
   }
 };
 
