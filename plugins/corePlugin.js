@@ -66,7 +66,7 @@ CorePlugin.prototype.observeActions = function () {
   var self = this;
   _.forEach(self.actions, function (actionId) { //#F
     Object.observe(resources.links.actions.resources[actionId].data, function (changes) {
-      var action = changes[0].object[0];
+      var action = changes[0].object.pop();
       console.info('[plugin action detected] %s', actionId);
       if (self.doAction) self.doAction(action);
     }, ['add']);
