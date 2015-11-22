@@ -10,7 +10,8 @@
   "customFields": {
     "hostname":"localhost",
     "port": 8484,
-    "secure": true
+    "secure": true,
+    "dataArraySize" : 30
   },
   "links": {
     "product": {
@@ -122,7 +123,7 @@
       }
     },
     "type": {
-      "link": "http://model.webofthings.org/WebThing",
+      "link": "http://model.webofthings.io/",
       "title": "Instance type of the Pi"
     },
     "help": {

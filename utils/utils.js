@@ -18,7 +18,7 @@ exports.randomInt = function(low, high) {
 };
 
 exports.findObjectInArray = function(array, filterObj) {
-  //TODO: could be made async if array is big
+  //TODO: should be made async (what if array is big!)
   return _.find(array, filterObj);
 };
 
@@ -69,5 +69,15 @@ exports.generateApiToken = function(length, chars) {
   }
 
   return result.join('');
+};
+
+exports.cappedPush = function(array, entry) {
+  if(array.length >= model.customFields.dataArraySize) {
+    array.shift();
+    array.push(entry);
+  } else {
+    array.push(entry);
+  }
+  return array;
 };
 

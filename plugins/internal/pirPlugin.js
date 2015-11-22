@@ -8,9 +8,21 @@ var sensor, model;
 var PirPlugin = exports.PirPlugin = function (params) {
   CorePlugin.call(this, params, 'pir', stop, simulate);
   model = this.model;
-  addData(true);
+  this.addValue(true);
 };
 util.inherits(PirPlugin, CorePlugin);
+
+function stop() {
+  sensor.unexport();
+};
+
+function simulate() {
+  this.addValue(false);
+};
+
+PirPlugin.prototype.createValue = function (data){
+  return {"presence": data, "timestamp": utils.isoTimestamp()};
+};
 
 PirPlugin.prototype.connectHardware = function () {
   var Gpio = require('onoff').Gpio;
@@ -19,23 +31,12 @@ PirPlugin.prototype.connectHardware = function () {
   sensor.watch(function (err, value) {
     if (err) exit(err);
     this.showValue();
-    addData(!!value);
+    this.addValue(!!value);
   });
   console.info('Hardware %s sensor started!', self.model.name);
 };
 
-function stop() {
-  sensor.unexport();
-};
 
-function simulate() {
-  addData(true);
-};
-
-function addData(value) {
-  //TODO: Fix the size of the array
-  model.data.push({"presence": value, "timestamp": utils.isoTimestamp()});
-};
 
 
 

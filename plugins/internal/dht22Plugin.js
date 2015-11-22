@@ -11,7 +11,7 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
   modelHumidity = utils.findProperty('humidity');
 
   // init
-  addData([0, 0]);
+  addValue([0, 0]);
 };
 util.inherits(Dht22Plugin, CorePlugin);
 
@@ -23,9 +23,9 @@ function simulate() {
   addData([utils.randomInt(0, 40), utils.randomInt(20, 100)]);
 }
 
-function addData(value) {
-  modelTemperature.data.push({"t": value[0], "timestamp": utils.isoTimestamp()});
-  modelHumidity.data.push({"h": value[1], "timestamp": utils.isoTimestamp()});
+function addValue(value) {
+  utils.cappedPush(modelTemperature.data, {"t": value[0], "timestamp": utils.isoTimestamp()});
+  utils.cappedPush(modelHumidity.data, {"h": value[1], "timestamp": utils.isoTimestamp()});
 }
 
 function showValue() {
@@ -42,7 +42,7 @@ Dht22Plugin.prototype.connectHardware = function () {
     },
     read: function () {
       var readout = sensorDriver.read();
-      addData([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
+      addValue([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
       showValue();
 
       setTimeout(function () {

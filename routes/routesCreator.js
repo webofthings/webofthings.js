@@ -1,11 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   uuid = require('node-uuid'),
- // jwt = require('jsonwebtoken'),
   utils = require('./../utils/utils');
-
-var perPage = 30;
-
 
 exports.create = function (model) {
 
@@ -26,7 +22,7 @@ function createRootRoute(model) {
   router.route('/').get(function (req, res, next) {
 
     req.model = model;
-    req.type ='root';
+    req.type = 'root';
 
     var fields = ['id', 'name', 'description', 'tags', 'customFields'];
     req.result = utils.extractFields(fields, model);
@@ -42,7 +38,6 @@ function createRootRoute(model) {
       type: type
     });
 
-
     next();
   });
 };
@@ -52,7 +47,6 @@ function createModelRoutes(model) {
   // GET /model
   router.route('/model').get(function (req, res, next) {
     req.result = model;
-
     req.model = model;
 
     res.links({
@@ -67,11 +61,10 @@ function createPropertiesRoutes(model) {
 
   var properties = model.links.properties;
 
-
   // GET /properties
   router.route(properties.link).get(function (req, res, next) {
     req.model = model;
-    req.type ='properties';
+    req.type = 'properties';
     req.entityId = 'properties';
 
     req.result = utils.modelToResources(properties.resources, true);
@@ -91,7 +84,7 @@ function createPropertiesRoutes(model) {
   router.route(properties.link + '/:id').get(function (req, res, next) {
     req.model = model;
     req.propertyModel = properties.resources[req.params.id];
-    req.type ='property';
+    req.type = 'property';
     req.entityId = req.params.id;
 
     req.result = properties.resources[req.params.id].data;
@@ -117,7 +110,7 @@ function createActionsRoutes(model) {
     req.result = utils.modelToResources(actions.resources, true);
     
     req.model = model;
-    req.type ='actions';
+    req.type = 'actions';
     req.entityId = 'actions';
 
     if (actions['@context']) type = actions['@context'];
@@ -163,12 +156,6 @@ function createActionsRoutes(model) {
       type: type
     });
 
-    // FIXME: correct pagination
-    res.links({
-      type: type,
-      next: 'http://api.example.com/users?page=2',
-      last: 'http://api.example.com/users?page=5'
-    });
 
     next();
   });
@@ -181,20 +168,10 @@ function createActionsRoutes(model) {
   });
 };
 
-function createSubscriptionsRoutes() {
-  //TODO
-};
-
 function createDefaultData(resources) {
-  // Add the latest values to the model
   Object.keys(resources).forEach(function (resKey) {
     var resource = resources[resKey];
-    //Object.keys(resource.values).forEach(function(valKey) {
     resource.data = [];
-    //var value = {};
-    //  value[valKey] = 'hello';
-    //resource.data.push(value);
-    //});
   });
 }
 

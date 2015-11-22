@@ -91,6 +91,55 @@ describe('/', function () {
       // check the sensor value
       expect(pir).to.be.a('array');
       expect(pir[0].presence).to.be.a('boolean');
+      expect(pir[0].timestamp).to.not.be.an('undefined');
+
+      done();
+    });
+  });
+
+  it('returns the Temperature property of the Pi', function (done) {
+    req.get(rootUrl + '/properties/temperature', function (err, res, temp) {
+
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+
+      // check the sensor value
+      expect(temp).to.be.a('array');
+      expect(temp[0].t).to.be.a('number');
+      expect(temp[0].timestamp).to.not.be.an('undefined');
+
+      done();
+    });
+  });
+
+  it('returns the Humidity property of the Pi', function (done) {
+    req.get(rootUrl + '/properties/humidity', function (err, res, humid) {
+
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+
+      // check the sensor value
+      expect(humid).to.be.a('array');
+      expect(humid[0].h).to.be.a('number');
+      expect(humid[0].h).to.be.at.least(0);
+      expect(humid[0].h).to.be.below(100);
+      expect(humid[0].timestamp).to.not.be.an('undefined');
+
+      done();
+    });
+  });
+
+  it('returns the LED properties of the Pi', function (done) {
+    req.get(rootUrl + '/properties/leds', function (err, res, leds) {
+
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(status.OK);
+
+      // check the sensor value
+      expect(leds).to.be.a('array');
+      expect(leds[0]['1']).to.be.a('boolean');
+      expect(leds[0]['2']).to.be.a('boolean');
+      expect(leds[0].timestamp).to.not.be.an('undefined');
 
       done();
     });
@@ -137,6 +186,7 @@ describe('/', function () {
   });
 
 
+
   it('returns the ledState actions', function (done) {
     req.get(rootUrl + '/actions/ledState', function (err, res, ledStates) {
 
@@ -149,6 +199,28 @@ describe('/', function () {
 
       done();
     });
+  });
+
+
+  it('ensures a led action changes the led state', function (done) {
+    var uri = '/actions/ledState';
+    req.post(rootUrl + uri,
+      {body: {"ledId": 1, "state": true}},
+      function (err, res, ledStates) {
+        req.get(rootUrl + '/properties/leds', function (err, res, actions) {
+
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(status.OK);
+
+          // check the sensor value
+          expect(actions).to.be.a('array');
+          expect(actions).to.have.length.above(0);
+          expect(actions.pop()['1']).to.be.a('boolean');
+          expect(actions.pop()['1']).to.be.true;
+
+          done();
+        });
+      });
   });
 
 

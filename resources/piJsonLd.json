@@ -13,7 +13,10 @@
 "WoT"
 ],
   "customFields" : {
-    "port" : 8484
+    "hostname":"localhost",
+    "port": 8484,
+    "secure": true,
+    "dataArraySize" : 30
   },
   "links": {
     "product": {

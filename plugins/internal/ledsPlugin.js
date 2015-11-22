@@ -1,4 +1,3 @@
-//TODO: Take code from chapter 7
 var CorePlugin = require('./../corePlugin').CorePlugin,
   resources = require('./../../resources/model'),
   util = require('util'),
@@ -10,21 +9,19 @@ var LedsPlugin = exports.LedsPlugin = function (params) { //#A
   CorePlugin.call(this, params, 'leds',
     stop, simulate, ['ledState'], switchOnOff); //#B
   model = this.model;
-  addData(false);
+  this.addValue(false);
 };
 util.inherits(LedsPlugin, CorePlugin); //#F
 
-function addData(value) { //#C
-  //TODO: Fix the size of the array
-  model.data.push({"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()});
- //model.data = [{"1" : value, "2" : false, "timestamp" : utils.isoTimestamp()}];
-};
-
-function switchOnOff(changes) { //#D
-  +changes.state;
-  actuator.write(changes.state, function () {
-    console.info('Changed value to %i', changes.state);
-  });
+function switchOnOff(value) { //#D
+  if (!this.params.simulate) {
+    actuator.write(value.state === true ? 1 : 0, function () {
+      console.info('Changed value of %s to %s', this.model.name, value.state);
+      this.addValue(value.state);
+    });
+  } else {
+    this.addValue(value.state);
+  }
 };
 
 function stop() {
@@ -32,7 +29,11 @@ function stop() {
 };
 
 function simulate() {
-  addData(false);
+  this.addValue(false);
+};
+
+LedsPlugin.prototype.createValue = function (data){
+  return {"1" : data, "2" : false, "timestamp" : utils.isoTimestamp()};
 };
 
 LedsPlugin.prototype.connectHardware = function () { //#E
