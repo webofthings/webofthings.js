@@ -179,12 +179,32 @@ describe('/', function () {
           expect(action.state).to.be.a('boolean');
           expect(action.status).to.be.a('string');
           expect(action.timestamp).to.be.a('string');
+          expect(action.status).to.equal('completed');
 
           done();
         });
       });
   });
 
+
+  it('creates a ledState action and ensure it is in the right place in the list', function (done) {
+    var uri = '/actions/ledState';
+    req.post(rootUrl + uri,
+      {body: {"ledId": 1, "state": true}},
+      function (err, res, ledStates) {
+        var id = res.headers.location.split('/').pop();
+        req.get(rootUrl + uri, function (err, res, actions) {
+
+          console.log('Retrieved actions --> %s', util.inspect(actions, false, null));
+
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(status.OK);
+          expect(actions).to.be.an('array');
+          expect(actions[0].id).to.equal(id);
+          done();
+        });
+      });
+  });
 
 
   it('returns the ledState actions', function (done) {
@@ -273,7 +293,7 @@ describe('/', function () {
   });
 
 
-  //TODO: Fixme, i should fail!
+  //TODO: Fixme, I should fail!
   it('checks that access is unauthorized without a token', function (done) {
     req.get(rootUrl + '/properties', {
       json: true, headers: {

@@ -87,7 +87,7 @@ function createPropertiesRoutes(model) {
     req.type = 'property';
     req.entityId = req.params.id;
 
-    req.result = properties.resources[req.params.id].data;
+    req.result = reverseResults(properties.resources[req.params.id].data);
 
     // Generate the Link headers 
     if (properties.resources[req.params.id]['@context']) type = properties.resources[req.params.id]['@context'];
@@ -139,7 +139,7 @@ function createActionsRoutes(model) {
   // GET /actions/{actionType}
   router.route(actions.link + '/:actionType').get(function (req, res, next) {
 
-    req.result = actions.resources[req.params.actionType].data;
+    req.result = reverseResults(actions.resources[req.params.actionType].data);
     req.actionModel = actions.resources[req.params.actionType];
     req.model = model;
 
@@ -170,6 +170,10 @@ function createDefaultData(resources) {
     var resource = resources[resKey];
     resource.data = [];
   });
+}
+
+function reverseResults(array) {
+  return array.slice(0).reverse();
 }
 
 
