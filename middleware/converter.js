@@ -4,6 +4,16 @@ var msgpack = require('msgpack5')(),
 
 function represent(req, res, next) {
   if (req.result) {
+
+    console.log(req.headers);
+    //console.log(req._parsedUrl.search);
+
+    req.rooturl=req.headers.host;
+    req.qp=req._parsedUrl.search;
+
+    console.log(req.rooturl);
+    console.log(req.qp);
+
     if (req.accepts('html')) {
 
       var helpers = {

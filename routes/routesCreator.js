@@ -146,8 +146,8 @@ function createActionsRoutes(model) {
     req.actionModel = actions.resources[req.params.actionType];
     req.model = model;
 
+    req.type = 'action';
     req.entityId = req.params.actionType;
-
 
     if (actions.resources[req.params.actionType]['@context']) type = actions.resources[req.params.actionType]['@context'];
     else type = 'http://model.webofthings.io/#actions-resource';

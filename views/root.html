@@ -23,7 +23,7 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/">{{req.model.id}}</a> / </h1>
+			<h1><a href="/{{req.qp}}">{{req.rooturl}}</a> / </h1>
 			<p>Web Thing Root Resource</p>
 		</div>
 	</div>
@@ -35,7 +35,6 @@
 
 
 					<h2>Metadata</h2>
-
 					<p>ID: <span property="id">{{req.result.id}}</span></p>
 					<p>Name: <span property="name">{{req.result.name}}</span></p>
 					<p>Description: <span property="description">{{req.result.description}}</span></p>
@@ -51,7 +50,7 @@
 					<h3>Model</h3>
 
 					<div>
-					<a href="model/">View Full Model</a> of this Web Thing. 
+					<a href="model/{{req.qp}}">View Full Model</a> of this Web Thing. 
 					</div>
 
 					<hr>
@@ -60,12 +59,11 @@
 
 					<ul>
 					{{#each req.model.links}}
-					<li property="links" typeof="{{@key}}"><a property="url" href="{{this.link}}"><span property="name">{{@key}}</span></a> - <span property="title">{{this.title}}</span></li>
+						<li property="links" typeof="{{@key}}"><a property="url" href="{{this.link}}{{../req.qp}}"><span property="name">{{@key}}</span></a> - <span property="title">{{this.title}}</span></li>
 					{{/each}}
 					</ul>
 
 					<hr>
-
 				</div>
 
 			</div>
@@ -75,7 +73,7 @@
 <footer class="bs-docs-footer" role="contentinfo">
   <div class="container">
 
-    <p>Check the WoT Book.</p>
+    <p>Check out the WoT Book.</p>
 
   </div>
 </footer>
