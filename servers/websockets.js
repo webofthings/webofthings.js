@@ -1,25 +1,28 @@
 var WebSocketServer = require('ws').Server,
   resources = require('./../resources/model');
 
-exports.listen = function(server) {
+exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
   console.info('WebSocket server started...');
   wss.on('connection', function (ws) { //#B
     var url = ws.upgradeReq.url;
-    console.info(url);
+    try {
       Array.observe(selectResouce(url), function (changes) { //#C
         ws.send(JSON.stringify(changes[0].object[changes[0].index]), function () {
         });
-      }, ['update']);
+      }, ['update'])
+    } catch (e) { //#D
+      console.log('Unable to observe %s resource!', url);
+    };
   });
 };
 
-function selectResouce(url) { //#D
+function selectResouce(url) { //#E
   var parts = url.split('/');
   parts.shift();
 
   var result;
-  if(parts[0] == 'actions') {
+  if (parts[0] == 'actions') {
     result = resources.links.actions.resources[parts[1]].data;
   } else {
     result = resources.links.properties.resources[parts[1]].data;
@@ -30,6 +33,7 @@ function selectResouce(url) { //#D
 //#A Create a WebSocket server by passing it the Express server
 //#B Triggered after a protocol upgrade when the client connected
 //#C We register an observer corresponding to the resource in the protocol upgrade URL
-//#D This function takes a request URL and returns the corresponding resource
+//#D We use a try/catch to catch to intercept error (e.g., malformed/unsupported URLs)
+//#E This function takes a request URL and returns the corresponding resource
 
 
