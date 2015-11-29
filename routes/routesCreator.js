@@ -139,9 +139,6 @@ function createActionsRoutes(model) {
   // GET /actions/{actionType}
   router.route(actions.link + '/:actionType').get(function (req, res, next) {
 
-    // TODO handle pagination here & in the headers
-    //console.log("Asking for page: " + req.query.page +"(Total #: "+ actions.resources[req.params.actionType].data.length +")");
-
     req.result = actions.resources[req.params.actionType].data;
     req.actionModel = actions.resources[req.params.actionType];
     req.model = model;
