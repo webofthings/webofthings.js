@@ -22,6 +22,7 @@ function switchOnOff(value) { //#D
   } else {
     self.addValue(value.state);
   }
+  value.status = 'completed';
   console.info('Changed value of %s to %s', self.model.name, value.state);
 };
 
