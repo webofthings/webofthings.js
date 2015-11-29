@@ -23,8 +23,8 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/{{req.qp}}">{{req.rooturl}}</a> / {{req.entityId}} </h1>
-			<p>Properties of this Web Thing</p>
+			<h1><a href="/{{req.qp}}">{{req.rooturl}}</a> / <a href="/actions/{{req.qp}}">actions</a> / {{req.entityId}}</h1>
+			<p>Action Details</p>
 		</div>
 	</div>
 
@@ -33,13 +33,31 @@
 			<div class="col-md-9" role="main">
 				<div class="bs-docs-section">
 
-					<h2>{{req.model.links.properties.title}}</h2>
+          {{#if req.actionModel.name}}
+            <h2>{{req.actionModel.name}}</h2>
+          {{else}}
+            <h2>{{req.entityId}}</h2>
+          {{/if}}
+
+          <p>{{req.actionModel.description}}</p>
+
+          <p><b>Tags:</b> {{req.actionModel.tags}}</p>
+
+          <h3>Values</h3>
 
 
-					{{#each req.result}}
+					{{#each req.actionModel.values}}
 					<hr>
-					<h3><a href="/properties/{{this.id}}{{../req.qp}}">{{this.name}}</a></h3>
-					<p>{{this.description}}</p>
+					<h4>["{{@key}}"] - {{this.name}}</h4>
+          <p><em>{{this.description}}</em></p>
+          <p>type: {{this.type}}</p>
+          <p>unit: {{this.unit}}</p>
+          
+          {{#if ../req.result.[0]}}
+            <p>Value: {{getById ../../req.result.[0] @key}}</p>
+            <p>Timestamp: {{../../req.result.[0].timestamp}}</p>
+          {{/if}}
+
 
 					<ul class="list-group">
 						

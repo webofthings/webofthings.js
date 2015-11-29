@@ -15,9 +15,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Enables API Auth
-//console.info('Here is a crypto-secure API Key: ' + utils.generateApiToken());
+//console.info('Here is a new random crypto-secure API Key: ' + utils.generateApiToken());
 console.info('My API Token is: ' + keys.apiToken);
-app.use(auth.simpleTokenAuth); // uncomment to enable the auth middleware
+//app.use(auth.simpleTokenAuth); // uncomment to enable the auth middleware
 
 // Create Routes
 app.use('/', routesCreator.create(resources));

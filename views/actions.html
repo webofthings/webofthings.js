@@ -23,7 +23,7 @@
     <!-- Docs page layout -->
 	<div class="bs-docs-header" id="content" tabindex="-1">
 		<div class="container">
-			<h1><a href="/">{{req.model.id}}</a> / {{req.entityId}} </h1>
+			<h1><a href="/{{req.qp}}">{{req.rooturl}}</a> / {{req.entityId}} </h1>
 			<p>Actions of this Web Thing</p>
 		</div>
 	</div>
@@ -38,7 +38,7 @@
 
 					{{#each req.result}}
 					<hr>
-					<h3><a href="/actions/{{this.id}}">{{this.name}}</a></h3>
+					<h3><a href="/actions/{{this.id}}{{../req.qp}}">{{this.name}}</a></h3>
 					<p>{{this.description}}</p>
 
 					{{/each}}
