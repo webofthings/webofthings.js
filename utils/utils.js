@@ -49,7 +49,7 @@ exports.modelToResources = function(subModel, withValue) {
     var resource = {};
     resource.id = key;
     resource.name = val['name'];
-    if(withValue) resource.values = val.data[0];
+    if(withValue) resource.values = val.data[val.data.length-1];
     resources.push(resource);
   });
   return resources;
