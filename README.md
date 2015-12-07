@@ -6,3 +6,12 @@ A very simple, lightweight, and extensible implementation of the Web Things Mode
 
 ## Why does this do?
 First, it implements a Web of Things server that you can run on any platform that supports Node. Second, it exposes the services and function of your sevice.
+
+## How do I start it?
+
+Install it: `npm install`
+
+Run it: `sudo node wot.js`
+
+## Want to know more about the Web of Things?
+Browse http://webofthings.org and/or buy the [Building the Web of Things Book](http://book.webofthings.io)
