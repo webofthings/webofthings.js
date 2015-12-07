@@ -8,6 +8,12 @@ function represent(req, res, next) {
     req.rooturl=req.headers.host;
     req.qp=req._parsedUrl.search;
 
+    if (req.accepts('json')) {
+      console.info('JSON representation selected!');
+      res.send(req.result);
+      return;
+    }
+
     if (req.accepts('html')) {
 
       var helpers = {
@@ -27,6 +33,7 @@ function represent(req, res, next) {
     }
 
     if (req.accepts('application/x-msgpack')) {
+      console.info('MessagePack representation selected!');
       res.type('application/x-msgpack');
       res.send(encode(req.result));
       return;
@@ -38,7 +45,7 @@ function represent(req, res, next) {
       return;
     }
 
-    console.info('JSON representation selected!');
+    console.info('Defaulting to JSON representation!');
     res.send(req.result);
     return;
     
