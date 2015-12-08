@@ -8,12 +8,6 @@ function represent(req, res, next) {
     req.rooturl=req.headers.host;
     req.qp=req._parsedUrl.search;
 
-    if (req.accepts('json')) {
-      console.info('JSON representation selected!');
-      res.send(req.result);
-      return;
-    }
-
     if (req.accepts('html')) {
 
       var helpers = {
