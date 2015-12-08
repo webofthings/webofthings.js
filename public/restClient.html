@@ -17,12 +17,19 @@
 <script>
     $(document).ready(
             function doPoll() {
-                $.getJSON('https://wot-pi.local:8484/properties/temperature',
-                        function (data) {
-                            console.log(data);
-                            $('#temp').html(data[0].t + ' C');
-                            setTimeout(doPoll, 5000);
-                        });
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://wot-pi.local:8484/properties/temperature',
+                    headers: {Accept : "application/json"},
+                    success: function( data ){
+                        console.log(data);
+                        $('#temp').html(data[0].t + ' C');
+                        setTimeout(doPoll, 5000);
+                    },
+                    error: function( jqXhr, textStatus, errorThrown ){
+                        console.log( errorThrown );
+                    }
+                });
             });
 </script>
 </body>
