@@ -1,6 +1,9 @@
 var WebSocketServer = require('ws').Server,
   resources = require('./../resources/model');
 
+var util = require('util');
+
+
 exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
   console.info('WebSocket server started...');
@@ -8,6 +11,7 @@ exports.listen = function (server) {
     var url = ws.upgradeReq.url;
     try {
       Array.observe(selectResouce(url), function (changes) { //#C
+        util.inspect(changes);
         ws.send(JSON.stringify(changes[0].object[changes[0].index]), function () {
         });
       }, ['update'])
