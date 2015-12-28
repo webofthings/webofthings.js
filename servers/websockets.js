@@ -14,7 +14,7 @@ exports.listen = function (server) {
         console.log("Change detected: %s", util.inspect(changes));
         ws.send(JSON.stringify(changes[0].object[changes[0].index]), function () {
         });
-      }, ['update'])
+      }, ['add'])
     } catch (e) { //#D
       console.log('Unable to observe %s resource!', url);
     };
