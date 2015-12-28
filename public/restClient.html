@@ -19,7 +19,7 @@
             function doPoll() {
                 $.ajax({
                     type: 'GET',
-                    url: 'https://wot-pi.local:8484/properties/temperature',
+                    url: 'https://raspberrypi.local:8484/properties/temperature',
                     headers: {Accept : "application/json"},
                     success: function( data ){
                         console.log(data);

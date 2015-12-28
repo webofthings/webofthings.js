@@ -22,7 +22,7 @@ function selectResouce(url) { //#E
   parts.shift();
 
   var result;
-  if (parts[0] == 'actions') {
+  if (parts[0] === 'actions') {
     result = resources.links.actions.resources[parts[1]].data;
   } else {
     result = resources.links.properties.resources[parts[1]].data;
