@@ -11,7 +11,7 @@ exports.listen = function (server) {
     var url = ws.upgradeReq.url;
     try {
       Array.observe(selectResouce(url), function (changes) { //#C
-        util.inspect(changes);
+        console.log("Change detected: %s", util.inspect(changes));
         ws.send(JSON.stringify(changes[0].object[changes[0].index]), function () {
         });
       }, ['update'])
