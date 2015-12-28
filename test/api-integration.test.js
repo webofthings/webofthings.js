@@ -195,8 +195,6 @@ describe('/', function () {
         var id = res.headers.location.split('/').pop();
         req.get(rootUrl + uri, function (err, res, actions) {
 
-          console.log('Retrieved actions --> %s', util.inspect(actions, false, null));
-
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(status.OK);
           expect(actions).to.be.an('array');
@@ -300,7 +298,7 @@ describe('/', function () {
         'Accept': 'application/json',
         'Authorization' : '123'
       }
-    }, function (err, res) {
+    }, function (err, res, stuff) {
       expect(res.statusCode).to.equal(status.OK);
     });
     done();

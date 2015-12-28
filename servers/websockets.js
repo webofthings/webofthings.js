@@ -12,7 +12,7 @@ exports.listen = function (server) {
     try {
       Array.observe(selectResouce(url), function (changes) { //#C
         console.log("Change detected: %s", util.inspect(changes));
-        ws.send(JSON.stringify(changes[0].object[changes[0].index]), function () {
+        ws.send(JSON.stringify(changes[0].object[changes[0].object.length -1]), function () {
         });
       }, ['add'])
     } catch (e) { //#D
