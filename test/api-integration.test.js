@@ -62,7 +62,6 @@ describe('/', function () {
 
       expect(props).to.be.a('array');
       expect(props).to.be.of.length(4);
-
       done();
     });
   });
@@ -77,7 +76,6 @@ describe('/', function () {
       expect(actions).to.be.a('array');
       expect(actions[0].id).to.equal('ledState');
       expect(actions[0].name).to.equal('Change LED state');
-
       done();
     });
   });
@@ -92,7 +90,6 @@ describe('/', function () {
       expect(pir).to.be.a('array');
       expect(pir[0].presence).to.be.a('boolean');
       expect(pir[0].timestamp).to.not.be.an('undefined');
-
       done();
     });
   });
@@ -107,7 +104,6 @@ describe('/', function () {
       expect(temp).to.be.a('array');
       expect(temp[0].t).to.be.a('number');
       expect(temp[0].timestamp).to.not.be.an('undefined');
-
       done();
     });
   });
@@ -124,7 +120,6 @@ describe('/', function () {
       expect(humid[0].h).to.be.at.least(0);
       expect(humid[0].h).to.be.below(100);
       expect(humid[0].timestamp).to.not.be.an('undefined');
-
       done();
     });
   });
@@ -140,7 +135,6 @@ describe('/', function () {
       expect(leds[0]['1']).to.be.a('boolean');
       expect(leds[0]['2']).to.be.a('boolean');
       expect(leds[0].timestamp).to.not.be.an('undefined');
-
       done();
     });
   });
@@ -156,7 +150,6 @@ describe('/', function () {
 
         expect(res.headers.location).to.contain(uri);
         expect(res.headers.location).to.have.length.above(uri.length);
-
         done();
       });
   });
@@ -180,7 +173,6 @@ describe('/', function () {
           expect(action.status).to.be.a('string');
           expect(action.timestamp).to.be.a('string');
           expect(action.status).to.equal('completed');
-
           done();
         });
       });
@@ -214,7 +206,6 @@ describe('/', function () {
       // check the sensor value
       expect(ledStates).to.be.a('array');
       expect(ledStates[0].state).to.be.a('boolean');
-
       done();
     });
   });
@@ -235,7 +226,6 @@ describe('/', function () {
           expect(actions).to.have.length.above(0);
           expect(actions.pop()['1']).to.be.a('boolean');
           expect(actions.pop()['1']).to.be.true;
-
           done();
         });
       });
@@ -254,9 +244,8 @@ describe('/', function () {
       expect(jsonld).to.be.a('string');
       expect(jsonld).to.contain('@context');
       expect(jsonld).to.contain('@id');
+      done();
     });
-
-    done();
   });
 
   // HTML views
@@ -271,9 +260,8 @@ describe('/', function () {
       expect(html).to.be.a('string');
       expect(html).to.have.string('<!DOCTYPE html>');
       expect(html).to.have.string('temperature');
+      done();
     });
-
-    done();
   });
 
   it('returns the homepage of the gateway', function (done) {
@@ -286,23 +274,19 @@ describe('/', function () {
       expect(res.statusCode).to.equal(status.OK);
       expect(html).to.be.a('string');
       expect(html).to.have.string('<!DOCTYPE html>');
+      done();
     });
-    done();
   });
 
-
-  //TODO: Fixme, I should fail!
-  it('checks that access is unauthorized without a token', function (done) {
+  it('checks that access is unauthorized with a wrong token in the header', function (done) {
     req.get(rootUrl + '/properties', {
       json: true, headers: {
         'Accept': 'application/json',
         'Authorization' : '123'
       }
-    }, function (err, res, stuff) {
-      expect(res.statusCode).to.equal(status.OK);
+    }, function (err, res) {
+      expect(res.statusCode).to.equal(status.FORBIDDEN);
+      done();
     });
-    done();
   });
-
-
 });

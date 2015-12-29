@@ -1,4 +1,5 @@
 var model = require('./../resources/model'),
+  keys = require('./../resources/auth'),
   crypto = require('crypto'),
   _ = require('lodash/collection');
 
@@ -41,6 +42,9 @@ exports.extractFields = function(fields, object, target) {
   return target;
 };
 
+exports.isTokenValid = function(token) {
+  return keys.apiToken === token;
+};
 
 exports.modelToResources = function(subModel, withValue) {
   var resources = [];
@@ -70,6 +74,8 @@ exports.generateApiToken = function(length, chars) {
 
   return result.join('');
 };
+
+
 
 exports.cappedPush = function(array, entry) {
   if(array.length >= model.customFields.dataArraySize) {

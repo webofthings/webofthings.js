@@ -1,4 +1,4 @@
-var keys = require('../resources/auth');
+var utils = require('./../utils/utils');
 
 exports.simpleTokenAuth = function(req, res, next) {
   console.log(req.method + " " + req.path);
@@ -6,15 +6,15 @@ exports.simpleTokenAuth = function(req, res, next) {
     next(); //#A
 
   } else {
-    var token = req.body.token || req.headers['authorization'] || req.param('token')//#B
+    var token = req.body.token || req.headers['authorization']
+      || req.param('token'); //#B
 
     if (!token) { //#C
       return res.status(401).send({success: false, message: 'API token missing.'});
     } else {
-      if (token != keys.apiToken) { //#D
+      if (!utils.isTokenValid(token)) { //#D
         return res.status(403).send({success: false, message: 'API token invalid.'});
       } else { //#E
-        //req.decoded = decoded;
         next();
       }
     }
