@@ -17,9 +17,23 @@
 <script>
     $(document).ready(
             function doPoll() {
+                // this is insecure, a token should never
+                // be in clear text on client side code!
+                var token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
+                var local = true;
+                var uri = '/properties/temperature';
+
+                var url;
+                if (local) {
+                    url = "https://localhost:8484"
+                } else {
+                    url = "https://raspberrypi.local"
+                }
+                url = url + uri + '?token=' + token;
+
                 $.ajax({
                     type: 'GET',
-                    url: 'https://raspberrypi.local:8484/properties/temperature',
+                    url: url,
                     headers: {Accept : "application/json"},
                     success: function( data ){
                         console.log(data);
