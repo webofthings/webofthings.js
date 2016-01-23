@@ -19,9 +19,9 @@ var CorePlugin = exports.CorePlugin = function (params, propertyId, doStop, doSi
     this.params = {'simulate': false, 'frequency': 5000};
   }
 
-  this.doAction = doAction;
+  this.doAction = doAction; //#B
   this.doStop = doStop;
-  this.doSimulate = doSimulate; //#B
+  this.doSimulate = doSimulate;
   this.actions = actionsIds; //#C
   this.model = utils.findProperty(propertyId); //#D
 };
