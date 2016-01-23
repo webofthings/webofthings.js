@@ -1,8 +1,6 @@
 var WebSocketServer = require('ws').Server,
-  resources = require('./../resources/model');
-
-var util = require('util');
-
+  resources = require('./../resources/model'),
+    util = require('util');
 
 exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
@@ -16,7 +14,7 @@ exports.listen = function (server) {
       }, ['add'])
     } catch (e) { //#D
       console.log('Unable to observe %s resource!', url);
-    };
+    }
   });
 };
 

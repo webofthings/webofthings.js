@@ -14,7 +14,6 @@ exports.simpleTokenAuth = function(req, res, next) {
       if (token != keys.apiToken) { //#D
         return res.status(403).send({success: false, message: 'API token invalid.'});
       } else { //#E
-        //req.decoded = decoded;
         next();
       }
     }

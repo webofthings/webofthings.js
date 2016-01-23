@@ -31,12 +31,12 @@
           "name": "Temperature Sensor",
           "description": "An ambient temperature sensor.",
           "values": {
-            "temp": {
+            "t": {
               "name": "Temperature sensor",
               "description": "The temperature in celsius",
               "unit": "celsius",
               "customFields": {
-                "gpio": 21
+                "gpio": 12
               }
             }
           },
@@ -55,7 +55,7 @@
               "description": "Percentage of Humidity",
               "unit": "%",
               "customFields": {
-                "gpio": 21
+                "gpio": 12
               }
             }
           },
@@ -73,7 +73,7 @@
               "description": "Current sensor value (true=motion detected)",
               "type": "boolean",
               "customFields": {
-                "gpio": 20
+                "gpio": 17
               }
             }
           },
@@ -89,13 +89,13 @@
             "1": {
               "name": "LED 1",
               "customFields": {
-                "gpio": 17
+                "gpio": 4
               }
             },
             "2": {
               "name": "LED 2",
               "customFields": {
-                "gpio": 19
+                "gpio": 9
               }
             }
           },

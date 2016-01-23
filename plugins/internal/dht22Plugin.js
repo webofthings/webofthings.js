@@ -1,5 +1,4 @@
 var CorePlugin = require('./../corePlugin').CorePlugin,
-  resources = require('./../../resources/model'),
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
@@ -16,7 +15,7 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
 util.inherits(Dht22Plugin, CorePlugin);
 
 function stop() {
-  actuator.unexport();
+  sensor.unexport();
 }
 
 function simulate() {
@@ -26,11 +25,11 @@ function simulate() {
 Dht22Plugin.prototype.addValue = function(values) {
   utils.cappedPush(modelTemperature.data, {"t": values[0], "timestamp": utils.isoTimestamp()});
   utils.cappedPush(modelHumidity.data, {"h": values[1], "timestamp": utils.isoTimestamp()});
-}
+};
 
 Dht22Plugin.prototype.showValues = function () {
   console.info('Temperature: %s C, Humidity: %s \%', modelTemperature.data[modelTemperature.data.length-1].t, modelHumidity.data[modelHumidity.data.length-1].h);
-}
+};
 
 Dht22Plugin.prototype.connectHardware = function () {
   var sensorDriver = require('node-dht-sensor');

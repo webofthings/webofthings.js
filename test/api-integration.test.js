@@ -291,8 +291,6 @@ describe('/', function () {
     });
   });
 
-
-  //TODO: Fixme, I should fail!
   it('checks that access is unauthorized without a token', function (done) {
     req.get(rootUrl + '/properties', {
       json: true, headers: {
@@ -300,7 +298,7 @@ describe('/', function () {
         'Authorization' : '123'
       }
     }, function (err, res, stuff) {
-      expect(res.statusCode).to.equal(status.OK);
+      expect(res.statusCode).to.equal(status.FORBIDDEN);
 
       done();
     });

@@ -74,7 +74,7 @@ CorePlugin.prototype.observeActions = function () {
 };
 
 CorePlugin.prototype.createValue = function (data) {
-  throw new Error('createValue() should be implemented by Plugin');
+  throw new Error('createValue(data) should be implemented by Plugin');
 };
 
 CorePlugin.prototype.addValue = function(data) {

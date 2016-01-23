@@ -9,13 +9,15 @@ var key_file = './resources/change_me_privateKey.pem'; //#B
 var cert_file = './resources/change_me_caCert.pem'; //#C
 var passphrase = 'webofthings'; //#D
 
+var dht22Plugin, pirPlugin, ledsPlugin;
+
 var config = {
   key: fs.readFileSync(key_file),
   cert: fs.readFileSync(cert_file),
   passphrase: passphrase
 };
 
-var createServer = function (port, secure) {
+var createServer = function (port, secure, simulate) {
   if (port === undefined) {
     port = resources.customFields.port;
   }
@@ -56,20 +58,27 @@ function initPlugins(port) {
   var PirPlugin = require('./plugins/internal/pirPlugin').PirPlugin;
   var Dht22Plugin = require('./plugins/internal/dht22Plugin').Dht22Plugin;
 
-
-  var pirPlugin = new PirPlugin({'simulate': true, 'frequency': 5000});
+  pirPlugin = new PirPlugin({'simulate': true, 'frequency': 5000});
   pirPlugin.start();
 
-  var ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 5000});
+  ledsPlugin = new LedsPlugin({'simulate': true, 'frequency': 5000});
   ledsPlugin.start();
 
-  var dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 5000});
+  dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 5000});
   dht22Plugin.start();
 
   console.info('Your WoT Pi is up and running on port %s', port);
 }
 
 module.exports = createServer;
+
+process.on('SIGINT', function () {
+  ledsPlugin.stop();
+  pirPlugin.stop();
+  dht22Plugin.stop();
+  console.log('Bye, bye!');
+  process.exit();
+});
 
 //#A We import the https module
 //#B The private key of the server that we generated before
