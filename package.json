@@ -1,13 +1,13 @@
 {
-  "name": "wot-pi-framework",
-  "version": "0.0.5",
-  "description": "A Web of Things framework for Linux based devices.",
-  "main": "wot-pi.js",
+  "name": "wot-framework",
+  "version": "0.0.6",
+  "description": "A Web of Things framework for Linux based devices such as the Raspberry Pi.",
+  "main": "wot.js",
   "scripts": {
-    "start": "node wot-server.js"
+    "start": "node wot.js"
   },
-  "author": "Dominique Guinard",
-  "author": "Vlad Trifa",
+  "author": "Dominique Guinard, @domguinard",
+  "author": "Vlad Trifa, @vladounet",
   "license": "Apache-2.0",
   "keywords": [
     "web of things",
@@ -18,10 +18,12 @@
     "mqtt",
     "pi",
     "raspberry",
+    "pizero",
     "coap",
     "m2m",
     "iot",
     "tcp",
+    "websockets",
     "internet of things",
     "messaging",
     "jsondld",

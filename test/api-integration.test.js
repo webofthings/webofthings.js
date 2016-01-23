@@ -254,9 +254,9 @@ describe('/', function () {
       expect(jsonld).to.be.a('string');
       expect(jsonld).to.contain('@context');
       expect(jsonld).to.contain('@id');
-    });
 
-    done();
+      done();
+    });
   });
 
   // HTML views
@@ -271,9 +271,9 @@ describe('/', function () {
       expect(html).to.be.a('string');
       expect(html).to.have.string('<!DOCTYPE html>');
       expect(html).to.have.string('temperature');
-    });
 
-    done();
+      done();
+    });
   });
 
   it('returns the homepage of the gateway', function (done) {
@@ -286,8 +286,9 @@ describe('/', function () {
       expect(res.statusCode).to.equal(status.OK);
       expect(html).to.be.a('string');
       expect(html).to.have.string('<!DOCTYPE html>');
+
+      done();
     });
-    done();
   });
 
 
@@ -300,8 +301,9 @@ describe('/', function () {
       }
     }, function (err, res, stuff) {
       expect(res.statusCode).to.equal(status.OK);
+
+      done();
     });
-    done();
   });
 
 

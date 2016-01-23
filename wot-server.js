@@ -73,7 +73,7 @@ module.exports = createServer;
 
 //#A We import the https module
 //#B The private key of the server that we generated before
-//#D The actual certificate of the server
+//#C The actual certificate of the server
 //#D The password of the private key
 //#E We create an HTTPS server and pass it the config object
 //#F By passing it the server we create, the Websocket library will automatically detect and enable the TLS support
