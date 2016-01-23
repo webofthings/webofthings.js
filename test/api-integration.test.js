@@ -303,7 +303,7 @@ describe('/', function () {
       }
     }, function (err, res) {
       expect(res.statusCode).to.equal(status.OK);
-      
+
       done();
     });
   });
