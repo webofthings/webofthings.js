@@ -1,26 +1,19 @@
 var WebSocketServer = require('ws').Server,
   resources = require('./../resources/model'),
-  url = require('url'),
-  utils = require('./../utils/utils');
+    util = require('util');
 
 exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
   console.info('WebSocket server started...');
   wss.on('connection', function (ws) { //#B
-    var reqUrl = url.parse(ws.upgradeReq.url, true);
-
-    if (!utils.isTokenValid(reqUrl.query.token)) {
-      ws.send(JSON.stringify({'error': 'API token invalid.'}));
-    } else
-    {
-      try {
-        Array.observe(selectResouce(reqUrl.pathname), function (changes) { //#C
-          ws.send(JSON.stringify(changes[0].object[changes[0].object.length - 1]), function () {
-          });
-        }, ['add'])
-      } catch (e) { //#D
-        console.log('Unable to observe %s resource!', url);
-      }
+    var url = ws.upgradeReq.url;
+    try {
+      Array.observe(selectResouce(url), function (changes) { //#C
+        ws.send(JSON.stringify(changes[0].object[changes[0].object.length -1]), function () {
+        });
+      }, ['add'])
+    } catch (e) { //#D
+      console.log('Unable to observe %s resource!', url);
     }
   });
 };

@@ -6,8 +6,7 @@ exports.simpleTokenAuth = function(req, res, next) {
     next(); //#A
 
   } else {
-    var token = req.body.token || req.headers['authorization']
-      || req.param('token'); //#B
+    var token = req.body.token || req.headers['authorization'] || req.param.token; //#B
 
     if (!token) { //#C
       return res.status(401).send({success: false, message: 'API token missing.'});

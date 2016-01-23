@@ -278,13 +278,13 @@ describe('/', function () {
     });
   });
 
-  it('checks that access is unauthorized with a wrong token in the header', function (done) {
+  it('checks that access is unauthorized without a token', function (done) {
     req.get(rootUrl + '/properties', {
       json: true, headers: {
         'Accept': 'application/json',
         'Authorization' : '123'
       }
-    }, function (err, res) {
+    }, function (err, res, stuff) {
       expect(res.statusCode).to.equal(status.FORBIDDEN);
       done();
     });

@@ -1,5 +1,4 @@
 var CorePlugin = require('./../corePlugin').CorePlugin,
-  resources = require('./../../resources/model'),
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
