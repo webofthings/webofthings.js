@@ -67,7 +67,7 @@ function initPlugins(port) {
   dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 5000});
   dht22Plugin.start();
 
-  console.info('Your WoT device is up and running on port %s', port);
+  console.info('Your WoT server is up and running on port %s', port);
 }
 
 module.exports = createServer;
