@@ -1,24 +1,25 @@
 wot-pi
 ├── middleware
+│   ├── auth.js
 │   └── converter.js
 ├── plugins
+│   ├── corePlugin.js
 │   └── internal
-│       ├── DHT22SensorPlugin.js
+│       ├── dht22Plugin.js
 │       ├── ledsPlugin.js
 │       └── pirPlugin.js
-├── public
-│   └── websocketsClient.html
 ├── resources
+│   ├── auth.json
 │   ├── model.js
-│   └── resources.json
+│   ├── piJsonLd.json
+│   └── piNoLd.json
 ├── routes
-│   ├── actuators.js
-│   ├── sensors.js
-│   └── things.js
+│   └── routesCreator.js
 ├── servers
 │   ├── http.js
 │   └── websockets.js
-├── utils
-│   └── utils.js
+├── utils/
+├── views/
 ├── package.json
-└── wot-server.js
+├── wot-server.js
+└── wot.js
