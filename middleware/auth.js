@@ -1,20 +1,22 @@
 var keys = require('../resources/auth');
 
-exports.simpleTokenAuth = function(req, res, next) {
-  console.log(req.method + " " + req.path);
-  if (req.path.substring(0, 5) === "/css/") {
-    next(); //#A
+module.exports = function() {
+  return function (req, res, next) {
+    console.log(req.method + " " + req.path);
+    if (req.path.substring(0, 5) === "/css/") {
+      next(); //#A
 
-  } else {
-    var token = req.body.token || req.get('authorization') || req.query.token; //#B
-    console.log(req.params);
-    if (!token) { //#C
-      return res.status(401).send({success: false, message: 'API token missing.'});
     } else {
-      if (token != keys.apiToken) { //#D
-        return res.status(403).send({success: false, message: 'API token invalid.'});
-      } else { //#E
-        next();
+      var token = req.body.token || req.get('authorization') || req.query.token; //#B
+      console.log(req.params);
+      if (!token) { //#C
+        return res.status(401).send({success: false, message: 'API token missing.'});
+      } else {
+        if (token != keys.apiToken) { //#D
+          return res.status(403).send({success: false, message: 'API token invalid.'});
+        } else { //#E
+          next();
+        }
       }
     }
   }
