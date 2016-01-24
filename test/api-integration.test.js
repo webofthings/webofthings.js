@@ -161,9 +161,6 @@ describe('/', function () {
       {body: {"ledId": 1, "state": true}},
       function (err, res, ledStates) {
         req.get(rootUrl + res.headers.location, function (err, res, action) {
-
-          console.log('Retrieved action --> %s', util.inspect(action, false, null));
-
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(status.OK);
 
@@ -278,7 +275,7 @@ describe('/', function () {
     });
   });
 
-  it('checks that access is unauthorized without a token', function (done) {
+  it('checks that access is unauthorized with an invalid token in the headers', function (done) {
     req.get(rootUrl + '/properties', {
       json: true, headers: {
         'Accept': 'application/json',
@@ -286,6 +283,18 @@ describe('/', function () {
       }
     }, function (err, res, stuff) {
       expect(res.statusCode).to.equal(status.FORBIDDEN);
+      done();
+    });
+  });
+
+  it('checks that access is authorized with token in query params', function (done) {
+    req.get(rootUrl + '/properties?token=' + token, {
+      json: true, headers: {
+        'Accept': 'application/json'
+      }
+    }, function (err, res, stuff) {
+      expect(res.statusCode).to.equal(status.OK);
+
       done();
     });
   });

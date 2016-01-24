@@ -7,9 +7,14 @@ It not (yet) a bomb proof gateway but a way to discover the Web of Things and th
 where you'll learn how the framework works, how to deploy it on a Raspberry Pi and how to use it to serve Web access to sensors 
 and actuators.
 
-## Why does this do?
+## What does this do?
 First, it implements a Web of Things server that you can run on any platform that supports Node. 
 Second, it exposes the services and function of your service over HTTP and WebSockets.
+
+## What devices does it support?
+
+Any Windows or *Nix device really but if you want to use the GPIOs you will need an embedded device.
+The framework was tested on the Raspberry Pi (A, B, B+, Zero and 2) and the Beaglebone Black.
 
 ## How do I start it?
 
