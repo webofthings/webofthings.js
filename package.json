@@ -4,16 +4,30 @@
   "description": "A Node.js Web of Things gateway framework for Linux based devices such as the Raspberry Pi.",
   "main": "wot.js",
   "scripts": {
-    "start": "node wot.js"
+    "start": "node wot.js",
+    "test": "mocha"
   },
   "author": "Dominique Guinard, @domguinard",
-  "author": "Vlad Trifa, @vladounet",
+  "contributors" : [
+    {
+      "name" : "Vlad Trifa",
+      "email" : "vladounet@gmail.com"
+    },
+    {
+      "name" : "Dominique Guinard",
+      "email" : "dom@guinard.org"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webofthings/webofthings.js"
+  },
   "license": "Apache-2.0",
   "keywords": [
     "web of things",
     "internet of things",
     "wot",
-    "gatway",
+    "gateway",
     "building the web of things",
     "REST",
     "HTTP",
