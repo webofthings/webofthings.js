@@ -15,7 +15,6 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
 util.inherits(Dht22Plugin, CorePlugin);
 
 function stop() {
-  sensor.unexport();
   clearInterval(interval);
 }
 
