@@ -10,7 +10,7 @@
   "customFields": {
     "hostname":"localhost",
     "port": 8484,
-    "secure": true,
+    "secure": false,
     "dataArraySize" : 30
   },
   "links": {
