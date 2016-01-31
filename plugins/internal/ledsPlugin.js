@@ -38,18 +38,17 @@ LedsPlugin.prototype.createValue = function (data){
 };
 
 LedsPlugin.prototype.connectHardware = function () { //#F
-  var Gpio = require('onoff').Gpio;
+  var Gpio = require('onoff').Gpio; //#G
   var self = this;
   actuator = new Gpio(self.model.values['1'].customFields.gpio, 'out');
   console.info('Hardware %s actuator started!', self.model.name);
 };
 
-
-
-//#A We call the initalization function of the parent plugin (corePlugin.js)
-//#B We pass it the Property we will update (leds) and the Actions we want to observe (ledState) as well as the implementation of what to do when a ledState Action is created (switchOnOff)
-//#C Extends the function connectHardware of corePlugin.js
-//#D Adds a new data entry to the property in the model
+//#A Call the initalization function of the parent plugin (corePlugin.js)
+//#B Pass it the property you’ll update (leds) and the actions you want to observe (ledState) as well as the implementation of what to do when a ledState action is created (switchOnOff)
+//#C Make the LedsPlugin inherit from all the corePlugin.js functionality
+//#D Add a new data entry to the property in the model
 //#E Change status to 'completed' as the LED state was changed
-//#F Changes the state of the LED using the on/off library
-//#G Make our LedsPlugin inherit from all the corePlugin.js functionality
+//#F Extend the function connectHardware of corePlugin.js
+//#G Change the state of the LED using the on/off library
+

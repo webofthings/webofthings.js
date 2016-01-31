@@ -49,8 +49,10 @@ function createModelRoutes(model) {
     req.result = model;
     req.model = model;
 
+    if (model['@context']) type = model['@context'];
+    else type = 'http://model.webofthings.io/';
     res.links({
-      type: model['@context']
+      type: type
     });
 
     next();
@@ -58,7 +60,6 @@ function createModelRoutes(model) {
 };
 
 function createPropertiesRoutes(model) {
-
   var properties = model.links.properties;
 
   // GET /properties
@@ -102,8 +103,7 @@ function createPropertiesRoutes(model) {
 };
 
 function createActionsRoutes(model) {
-
-  var actions= model.links.actions;
+  var actions = model.links.actions;
 
   // GET /actions
   router.route(actions.link).get(function (req, res, next) {

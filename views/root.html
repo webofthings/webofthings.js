@@ -40,7 +40,7 @@
 					<p>Description: <span property="description">{{req.result.description}}</span></p>
 					<p>Tags: <span property="tags">{{req.result.tags}}</span></p>
 					
-					<p>Root URL:<a property="url" href="http://devices.webofthings.io">http://devices.webofthings.io</a></p>
+					<p>Root URL: <a property="url" href="{{req.result.id}}">{{req.result.id}}</a></p>
 
 					<h3>Custom Fields</h3>
 					{{#each req.result.customFields}}

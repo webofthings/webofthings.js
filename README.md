@@ -1,8 +1,12 @@
 # Node.js Web of Things Gateway Embedded Framework
-A gateway and server reference implementation of the [W3C Web of Things Model](http://model.webofthings.io),
+A gateway and server reference implementation of the [W3C Web Thing Model](http://model.webofthings.io),
 written in Node.js and tailored for embedded devices.
 
-## What is it?
+## What is the Web Thing Model?
+It's a simple model for Things to interact together and with app via the Web. Read more about
+it in a [blogpost](http://radar.oreilly.com/2015/10/helping-things-in-the-iot-speak-the-same-language.html) or even more in a [webinar](https://www.oreilly.com/ideas/building-iot-systems-with-web-standards)!
+
+## What is webofthings.js?
 A simple, lightweight, and extensible implementation of the [W3C Web of Things Model](http://model.webofthings.io).
  in Node.js. It not (yet) a bomb proof gateway but a way to experiment with the Web of Things and the basis of the [Building the Web of Things book](https://www.manning.com/books/building-the-web-of-things?a_bid=16f48f14&a_aid=wot) 
 where you'll learn how the framework works, how to deploy it on a Raspberry Pi and how to use it to serve Web access to sensors 

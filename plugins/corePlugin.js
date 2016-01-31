@@ -36,11 +36,11 @@ CorePlugin.prototype.start = function () {
   console.info('[plugin started] %s', this.model.name);
 };
 
-CorePlugin.prototype.stop = function (doStop) {
+CorePlugin.prototype.stop = function () {
   if (this.params.simulate) {
     clearInterval(this.interval);
   } else {
-    if (this.doStop) doStop();
+    if (this.doStop) this.doStop();
   }
   console.info('[plugin stopped] %s', this.model.name);
 };

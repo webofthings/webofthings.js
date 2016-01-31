@@ -29,7 +29,7 @@ var createServer = function (port, secure, simulate) {
   if(secure) {
     // HTTPs server
     return server = https.createServer(config, restApp) //#E
-      .listen(port, function () {
+      .listen(process.env.PORT || port, function () {
         console.log('HTTPs server started...');
 
         // Websockets server
@@ -40,7 +40,7 @@ var createServer = function (port, secure, simulate) {
   } else {
     // HTTP server
     return server = http.createServer(restApp)
-      .listen(port, function () {
+      .listen(process.env.PORT || port, function () {
 
         // Websockets server
         wsServer.listen(server); //#F
