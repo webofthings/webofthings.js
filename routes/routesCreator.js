@@ -49,8 +49,10 @@ function createModelRoutes(model) {
     req.result = model;
     req.model = model;
 
+    if (model['@context']) type = model['@context'];
+    else type = 'http://model.webofthings.io/';
     res.links({
-      type: model['@context']
+      type: type
     });
 
     next();
