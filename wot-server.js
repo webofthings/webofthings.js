@@ -35,7 +35,7 @@ var createServer = function (port, secure, simulate) {
         // Websockets server
         wsServer.listen(server); //#F
 
-        initPlugins(port);
+        initPlugins();
       })
   } else {
     // HTTP server
@@ -46,12 +46,12 @@ var createServer = function (port, secure, simulate) {
         wsServer.listen(server); //#F
 
         console.log('HTTP server started...');
-        initPlugins(port);
+        initPlugins();
       })
   }
 };
 
-function initPlugins(port) {
+function initPlugins() {
   // Plugins
   // -- Internal Plugins
   var LedsPlugin = require('./plugins/internal/ledsPlugin').LedsPlugin;
