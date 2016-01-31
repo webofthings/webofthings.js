@@ -58,4 +58,5 @@ of other devices via a Web API) extending `corePlugin.js`.
 
 ## Want to know more about the Web of Things?
 Browse http://webofthings.org and/or buy the [Building the Web of Things Book](http://book.webofthings.io)
+
 ![building the web of things](https://raw.githubusercontent.com/webofthings/webofthings.js/master/docs/building-the-web-of-things.png)
