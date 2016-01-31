@@ -1,5 +1,5 @@
 {
-  "name": "wot-framework",
+  "name": "webofthings",
   "version": "0.0.6",
   "description": "A Web of Things framework for Linux based devices such as the Raspberry Pi.",
   "main": "wot.js",
