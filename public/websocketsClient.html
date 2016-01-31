@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-<script>
-    function subscribeToWs(uri, msg) {
-        // this is insecure, a token should never
-        // be in clear text on client side code!
-        var token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
-        var local = false;
-
-        var url;
-        if (local) {
-            url = "wss://localhost:8484"
-        } else {
-            url = "wss://raspberrypi.local"
-        }
-        url = url + uri + '?token=' + token;
+<body><script>
+    function subscribeToWs(url, msg) {
         var socket = new WebSocket(url);
 
         socket.onmessage = function (event) {
@@ -26,12 +13,16 @@
         };
         socket.onopen = function (event) {
             if (msg) {
-              socket.send(msg);
+                socket.send(msg);
             }
         };
     }
-    subscribeToWs('/properties/humidity');
-    //subscribeToWs('/actions/ledState');
-</script>
-</body>
-</html>
+    //subscribeToWs('wss://raspberrypi.local:8484/properties/humidity');
+
+    subscribeToWs('wss://192.168.0.19:8484/properties/humidity');
+
+
+    //subscribeToWs('wss://localhost:8484/properties/humidity');
+    //subscribeToWs('ws://localhost:8484/actions/ledState');
+    //subscribeToWs('wss://raspberrypi.local:8484/actions/ledState');
+</script></body></html>

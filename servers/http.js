@@ -19,7 +19,7 @@ app.use(cors());
 // console.info('Here is a new random crypto-secure API Key: ' + utils.generateApiToken());
 if(resources.customFields.secure === true) {
   console.info('My API Token is: ' + keys.apiToken);
-  app.use(auth.simpleTokenAuth); // uncomment to enable the auth middleware
+  app.use(auth()); // uncomment to enable the auth middleware
 }
 
 
@@ -33,6 +33,6 @@ app.set('views', __dirname + '/../views');
 // Sets the public folder (for static content such as .css files & co)
 app.use(express.static(__dirname + '/../public'));
 
-app.use(converter);
+app.use(converter());
 
 module.exports = app;
