@@ -1,5 +1,5 @@
 {
-  "id": "http://localhost:8484",
+  "id": "http://localhost:80",
   "name": "My WoT Raspberry PI",
   "description": "A simple WoT-connected Raspberry Pi for the WoT book.",
   "tags": [
@@ -9,7 +9,7 @@
   ],
   "customFields": {
     "hostname":"localhost",
-    "port": 8484,
+    "port": 80,
     "secure": true,
     "dataArraySize" : 30
   },
