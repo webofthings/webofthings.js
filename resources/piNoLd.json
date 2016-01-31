@@ -1,5 +1,5 @@
 {
-  "id": "http://localhost:8484",
+  "id": "http://gateway.webofthings.io",
   "name": "My WoT Raspberry PI",
   "description": "A simple WoT-connected Raspberry Pi for the WoT book.",
   "tags": [
@@ -8,7 +8,7 @@
     "WoT"
   ],
   "customFields": {
-    "hostname":"localhost",
+    "hostname":"gateway.webofthings.io",
     "port": 8484,
     "secure": false,
     "dataArraySize" : 30
