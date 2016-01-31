@@ -35,23 +35,23 @@ var createServer = function (port, secure, simulate) {
         // Websockets server
         wsServer.listen(server); //#F
 
-        initPlugins(port);
+        initPlugins();
       })
   } else {
     // HTTP server
     return server = http.createServer(restApp)
-      .listen(port, function () {
+      .listen(process.env.PORT || port, function () {
 
         // Websockets server
         wsServer.listen(server); //#F
 
         console.log('HTTP server started...');
-        initPlugins(port);
+        initPlugins();
       })
   }
 };
 
-function initPlugins(port) {
+function initPlugins() {
   // Plugins
   // -- Internal Plugins
   var LedsPlugin = require('./plugins/internal/ledsPlugin').LedsPlugin;
