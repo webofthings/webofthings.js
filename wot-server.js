@@ -40,7 +40,7 @@ var createServer = function (port, secure, simulate) {
   } else {
     // HTTP server
     return server = http.createServer(restApp)
-      .listen(port, function () {
+      .listen(process.env.PORT || port, function () {
 
         // Websockets server
         wsServer.listen(server); //#F
