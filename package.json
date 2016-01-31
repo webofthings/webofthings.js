@@ -1,7 +1,7 @@
 {
   "name": "webofthings",
   "version": "0.0.6",
-  "description": "A Web of Things framework for Linux based devices such as the Raspberry Pi.",
+  "description": "A Node.js Web of Things gateway framework for Linux based devices such as the Raspberry Pi.",
   "main": "wot.js",
   "scripts": {
     "start": "node wot.js"
@@ -11,8 +11,10 @@
   "license": "Apache-2.0",
   "keywords": [
     "web of things",
-    "building the web of things",
+    "internet of things",
     "wot",
+    "gatway",
+    "building the web of things",
     "REST",
     "HTTP",
     "mqtt",
@@ -24,7 +26,7 @@
     "iot",
     "tcp",
     "websockets",
-    "internet of things",
+    "beaglebone",
     "messaging",
     "jsondld",
     "messagepack"
@@ -32,20 +34,20 @@
   "dependencies": {
     "bl": "^1.0.0",
     "body-parser": "^1.13.1",
-    "coap": "^0.10.3",
+    "coap": "^0.13.1",
     "consolidate": "^0.13.1",
     "cors": "^2.7.1",
     "crypto": "0.0.3",
-    "express": "^4.12.4",
+    "express": "^4.13.3",
     "handlebars": "^3.0.3",
     "lodash": "^3.10.0",
-    "msgpack5": "^3.2.0",
+    "msgpack5": "^3.3.0",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
-    "ws": "^0.7.2"
+    "ws": "^1.0.1"
   },
   "optionalDependencies": {
-    "onoff": "^1.0.3",
+    "onoff": "^1.0.4",
     "node-dht-sensor": "^0.0.8"
   },
   "devDependencies": {
