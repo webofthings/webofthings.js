@@ -4,11 +4,12 @@ var restApp = require('./servers/http'),
   fs = require('fs');
 
 
-var createServer = function (port, secure, simulate) {
-  if (!port) port = resources.customFields.port;
-  if (!secure) secure = resources.customFields.secure;
+var createServer = function (port, secure) {
+  if (process.env.PORT) port = process.env.PORT;
+  else if (port === undefined) port = resources.customFields.port;
+  if (secure === undefined) secure = resources.customFields.secure;
 
-  initPlugins(port); //#A
+  initPlugins(); //#A
 
   if(secure) {
     var https = require('https'); //#B
@@ -25,19 +26,19 @@ var createServer = function (port, secure, simulate) {
     return server = https.createServer(config, restApp) //#F
       .listen(port, function () {
         wsServer.listen(server); //#G
-        console.log('HTTPs server started and running on port %s', port);
+        console.log('Secure WoT server started on port %s', port);
     })
   } else {
     var http = require('http');
     return server = http.createServer(restApp)
-      .listen(port, function () {
+      .listen(process.env.PORT | port, function () {
         wsServer.listen(server);
-        console.log('HTTP server started and running on port %s', port);
+        console.log('Unsecure WoT server started on port %s', port);
     })
   }
 };
 
-function initPlugins(port) {
+function initPlugins() {
   var LedsPlugin = require('./plugins/internal/ledsPlugin').LedsPlugin;
   var PirPlugin = require('./plugins/internal/pirPlugin').PirPlugin;
   var Dht22Plugin = require('./plugins/internal/dht22Plugin').Dht22Plugin;
@@ -62,10 +63,10 @@ process.on('SIGINT', function () {
   process.exit();
 });
 
-//#A We start the internal hardware plugins
-//#B If in secure mode, we import the 'https' module
-//#C The certificate file for this server
-//#D The private key generated earlier
-//#E The passphrase for the private key
-//#F We create an HTTPS server using the 'config' object
-//#G The WebSocket library will automatically detect and enable the TLS support
+//#A Start the internal hardware plugins
+//#B If in secure mode, import the HTTPS module
+//#C The actual certificate file of the server
+//#D The private key of the server generated earlier
+//#E The password of the private key
+//#F Create an HTTPS server using the config object
+//#G By passing it the server you create, the WebSocket library will automatically detect and enable TLS support
