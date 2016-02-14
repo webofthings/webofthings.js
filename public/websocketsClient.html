@@ -5,7 +5,7 @@
     function subscribeToWs(uri, msg) {
         // this is insecure, a token should never
         // be in clear text on client side code!
-        var token = 'cKXRTaRylYWQiF3MICaKndG4WJMcLFz';
+        var token = 'cKXRTaRylYWQiF3MICaKndG4WJMcVLFz';
         // true = on computer, false = on Pi
         var local = true;
         var url;
@@ -13,7 +13,7 @@
         if (local) {
             url = "wss://localhost:8484"
         } else {
-            url = "wss://raspberrypi.local"
+            url = "wss://raspberrypi.local:8484"
         }
 
         url = url + uri + '?token=' + token;
