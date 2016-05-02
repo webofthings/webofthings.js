@@ -3,7 +3,8 @@ var expect = require('chai').expect,
   server = require('../wot-server'),
   status = require('http-status'),
   util = require('util'),
-  token = require('../resources/auth').apiToken;
+  token = require('../resources/auth').apiToken,
+  WebSocketClient = require('websocket').client;
 
 describe('/', function () {
   var app, req;
@@ -17,7 +18,7 @@ describe('/', function () {
     req = request.defaults({
       json: true, headers: {
         'Accept': 'application/json',
-        'Authorization' : token
+        'Authorization': token
       }
     });
   });
@@ -292,7 +293,7 @@ describe('/', function () {
     req.get(rootUrl + '/properties', {
       json: true, headers: {
         'Accept': 'application/json',
-        'Authorization' : '123'
+        'Authorization': '123'
       }
     }, function (err, res, stuff) {
       expect(res.statusCode).to.equal(status.FORBIDDEN);
@@ -313,4 +314,154 @@ describe('/', function () {
     });
   });
 
+  it('waits to receive a temperature update', function (done) {
+    this.timeout(5000);
+    var client = new WebSocketClient();
+    client.on('connectFailed', function (error) {
+      console.log('Connect Error: ' + error.toString());
+    });
+
+    client.on('connect', function (connection) {
+      connection.on('error', function (error) {
+        console.log("Connection Error: " + error.toString());
+      });
+      connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+          console.log("Received over WS: '" + message.utf8Data + "'");
+          var res = JSON.parse(message.utf8Data);
+
+          expect(res.t).to.be.a('number');
+          expect(res.t).to.be.above(0);
+          expect(res.timestamp).to.be.a('string');
+          done();
+        }
+      });
+    });
+    client.connect('ws://localhost:' + port + '/properties/temperature?token=' + token);
+  });
+
+  it('waits to receive a humidity update', function (done) {
+    this.timeout(10000);
+    var client = new WebSocketClient();
+    client.on('connectFailed', function (error) {
+      console.log('Connect Error: ' + error.toString());
+    });
+
+    client.on('connect', function (connection) {
+      connection.on('error', function (error) {
+        console.log("Connection Error: " + error.toString());
+      });
+      connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+          console.log("Received over WS: '" + message.utf8Data + "'");
+          var res = JSON.parse(message.utf8Data);
+
+          expect(res.h).to.be.a('number');
+          expect(res.h).to.be.above(0);
+          expect(res.timestamp).to.be.a('string');
+          connection.close();
+          done();
+        }
+      });
+    });
+    client.connect('ws://localhost:' + port + '/properties/humidity?token=' + token);
+  });
+
+  it('waits to receive two humidity updates', function (done) {
+    this.timeout(10000);
+
+    var i = 0;
+    var client = new WebSocketClient();
+    client.on('connectFailed', function (error) {
+      console.log('Connect Error: ' + error.toString());
+    });
+
+    client.on('connect', function (connection) {
+      connection.on('error', function (error) {
+        console.log("Connection Error: " + error.toString());
+      });
+      connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+          console.log("Received over WS: '" + message.utf8Data + "'");
+          var res = JSON.parse(message.utf8Data);
+
+          expect(res.h).to.be.a('number');
+          expect(res.h).to.be.above(0);
+          expect(res.timestamp).to.be.a('string');
+          ++i;
+          if(i > 1) {
+            connection.close();
+            done();
+          }
+        }
+      });
+    });
+    client.connect('ws://localhost:' + port + '/properties/humidity?token=' + token);
+  });
+
+  it('waits to receive a PIR update', function (done) {
+    this.timeout(10000);
+    var client = new WebSocketClient();
+    client.on('connectFailed', function (error) {
+      console.log('Connect Error: ' + error.toString());
+    });
+
+    client.on('connect', function (connection) {
+      connection.on('error', function (error) {
+        console.log("Connection Error: " + error.toString());
+      });
+      connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+          console.log("Received over WS: '" + message.utf8Data + "'");
+          var res = JSON.parse(message.utf8Data);
+
+          expect(res.presence).to.be.a('boolean');
+          expect(res.presence).to.be.false;
+          expect(res.timestamp).to.be.a('string');
+          connection.close();
+          done();
+        }
+      });
+    });
+    client.connect('ws://localhost:' + port + '/properties/pir?token=' + token);
+  });
+
+  it('sends an action and waits to receive it via WebSocket', function (done) {
+    this.timeout(5000);
+    var client = new WebSocketClient();
+    client.on('connectFailed', function (error) {
+      console.log('Connect Error: ' + error.toString());
+    });
+    client.on('connect', function (connection) {
+
+      var ledId = 1;
+      var state = true;
+      // Post Action...
+      var uri = '/actions/ledState';
+      req.post(rootUrl + uri,
+        {body: {"ledId": ledId, "state": state}},
+        function (err, res, ledStates) {
+        });
+
+      connection.on('error', function (error) {
+        console.log("Connection Error: " + error.toString());
+      });
+      connection.on('message', function (message) {
+        if (message.type === 'utf8') {
+          console.log("Received over WS: '" + message.utf8Data + "'");
+          var res = JSON.parse(message.utf8Data);
+
+          expect(res.ledId).to.be.a('number');
+          expect(res.ledId).to.be.equal(ledId);
+          expect(res.state).to.be.equal(true);
+          expect(res.status).to.be.equal('completed');
+          expect(res.id).to.be.a('string');
+          expect(res.timestamp).to.be.a('string');
+          connection.close();
+          done();
+        }
+      });
+    });
+    client.connect('ws://localhost:' + port + '/actions/ledState?token=' + token);
+  });
 });

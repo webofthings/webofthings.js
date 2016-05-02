@@ -1,6 +1,6 @@
 {
   "name": "webofthings",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A Node.js Web of Things server and gateway for Linux based devices such as the Raspberry Pi, Beaglebone or Edison.",
   "main": "wot.js",
   "scripts": {
@@ -8,14 +8,14 @@
     "test": "mocha"
   },
   "author": "Dominique Guinard, @domguinard",
-  "contributors" : [
+  "contributors": [
     {
-      "name" : "Vlad Trifa",
-      "email" : "vladounet@gmail.com"
+      "name": "Vlad Trifa",
+      "email": "vladounet@gmail.com"
     },
     {
-      "name" : "Dominique Guinard",
-      "email" : "dom@guinard.org"
+      "name": "Dominique Guinard",
+      "email": "dom@guinard.org"
     }
   ],
   "repository": {
@@ -69,7 +69,8 @@
     "chai": "^2.3.0",
     "http-status": "^0.1.8",
     "mocha": "^2.2.5",
-    "request": "^2.55.0"
+    "request": "^2.55.0",
+    "websocket": "^1.0.22"
   },
   "engine": "node >= 0.12.3"
 }
