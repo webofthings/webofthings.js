@@ -26,7 +26,9 @@ Most of the code also works on the Intel Edison.
 
 ## How do I start it?
 
-Install it: `npm install`
+[![NPM](https://nodei.co/npm/webofthings.png?downloads=true)](https://www.npmjs.com/package/webofthings)
+
+Install it: `npm install webofthings`
 
 Run it: `node wot.js` or `sudo node wot.js` if you plan to use the temperature and humidity plugins.
 
