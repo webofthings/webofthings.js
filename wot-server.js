@@ -31,7 +31,7 @@ var createServer = function (port, secure) {
   } else {
     var http = require('http');
     return server = http.createServer(restApp)
-      .listen(process.env.PORT | port, function () {
+      .listen(process.env.PORT || port, function () {
         wsServer.listen(server);
         console.log('Insecure WoT server started on port %s', port);
     })
