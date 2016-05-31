@@ -2,7 +2,7 @@ var CorePlugin = require('./../corePlugin').CorePlugin,
   util = require('util'),
   utils = require('./../../utils/utils.js');
 
-var modelTemperature, modelHumidity;
+var modelTemperature, modelHumidity, sensor, interval;
 
 var Dht22Plugin = exports.Dht22Plugin = function (params) {
   CorePlugin.call(this, params, 'temperature', stop, simulate, null, null);
@@ -15,7 +15,7 @@ var Dht22Plugin = exports.Dht22Plugin = function (params) {
 util.inherits(Dht22Plugin, CorePlugin);
 
 function stop() {
-  sensor.unexport();
+  clearInterval(interval);
 }
 
 function simulate() {
@@ -34,7 +34,7 @@ Dht22Plugin.prototype.showValues = function () {
 Dht22Plugin.prototype.connectHardware = function () {
   var sensorDriver = require('node-dht-sensor');
   var self = this;
-  var sensor = {
+  sensor = {
     initialize: function () {
       console.log('Starting DHT Sensor on GPIO, %s', self.model.values.t.customFields.gpio);
       return sensorDriver.initialize(22, self.model.values.t.customFields.gpio);
@@ -43,15 +43,13 @@ Dht22Plugin.prototype.connectHardware = function () {
       var readout = sensorDriver.read();
       self.addValue([parseFloat(readout.temperature.toFixed(2)), parseFloat(readout.humidity.toFixed(2))]);
       self.showValues();
-
-      setTimeout(function () {
-        sensor.read();
-      }, 2000);
     }
   };
   if (sensor.initialize()) {
     console.info('Hardware %s sensor started!', self.model.name);
-    sensor.read();
+    interval = setInterval(function () {
+      sensor.read();
+    }, 2000);
   } else {
     console.warn('Failed to initialize sensor!');
   }

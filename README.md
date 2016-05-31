@@ -1,6 +1,6 @@
-# Node.js Web of Things Gateway Embedded Framework
-A gateway and server reference implementation of the [W3C Web Thing Model](http://model.webofthings.io),
-written in Node.js and tailored for embedded devices.
+# Node.js Web of Things Server
+A server and gateway reference implementation of the [W3C Web Thing Model](http://model.webofthings.io),
+written in Node.js and tailored for embedded systems.
 
 ## What is the Web Thing Model?
 It's a simple model for Things to interact together and with app via the Web. Read more about
@@ -13,8 +13,7 @@ where you'll learn how the framework works, how to deploy it on a Raspberry Pi a
 and actuators.
 
 ## What does this do?
-First, it implements a Web of Things server that you can run on any platform that supports Node. 
-Second, it exposes the services and function of your service over HTTP and WebSockets.
+First, it implements a Web of Things server that you can run on any platform that supports Node and in particular on many embedded devices. Second, it exposes the services and function of your service over HTTP and WebSockets.
 
 ## What devices does it support?
 
@@ -27,7 +26,9 @@ Most of the code also works on the Intel Edison.
 
 ## How do I start it?
 
-Install it: `npm install`
+[![NPM](https://nodei.co/npm/webofthings.png?downloads=true)](https://www.npmjs.com/package/webofthings)
+
+Install it: `npm install webofthings`
 
 Run it: `node wot.js` or `sudo node wot.js` if you plan to use the temperature and humidity plugins.
 
