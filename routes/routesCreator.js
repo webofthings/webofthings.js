@@ -35,6 +35,8 @@ function createRootRoute(model) {
       properties: '/properties/',
       actions: '/actions/',
       things: '/things/',
+      help: '/help/',
+      ui: '/',
       type: type
     });
 

@@ -333,6 +333,7 @@ describe('/', function () {
           expect(res.t).to.be.a('number');
           expect(res.t).to.be.above(0);
           expect(res.timestamp).to.be.a('string');
+          connection.close();
           done();
         }
       });
@@ -368,7 +369,7 @@ describe('/', function () {
   });
 
   it('waits to receive two humidity updates', function (done) {
-    this.timeout(10000);
+    this.timeout(15000);
 
     var i = 0;
     var client = new WebSocketClient();
