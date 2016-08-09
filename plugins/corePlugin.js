@@ -62,10 +62,20 @@ CorePlugin.prototype.showValue = function () {
   console.info('Current value for %s is %s', this.model.name, util.inspect(this.model.data[this.model.data.length-1]));
 };
 
+/**
+ * Fake ObjectObserve if not available
+ */
+var objectObserver = Object.observe || function (resource, callback, extra) {
+	resource.push = function (data) {
+		Array.prototype.push.call(resource, data);
+		callback([{object: resource}]);
+	};
+};
+
 CorePlugin.prototype.observeActions = function () {
   var self = this;
   _.forEach(self.actions, function (actionId) { //#F
-    Object.observe(resources.links.actions.resources[actionId].data, function (changes) {
+	  objectObserver(resources.links.actions.resources[actionId].data, function (changes) {
       var action = changes[0].object[changes[0].object.length -1];
       console.info('[plugin action detected] %s', actionId);
       if (self.doAction) self.doAction(action);
