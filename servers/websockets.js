@@ -36,9 +36,7 @@ exports.listen = function (server) {
 function selectResource(url) { //#E
   var parts = url.split('/');
   parts.shift();
-
   var result;
-  console.log(" parts ==> ", parts)
   if (parts[0] === 'actions') {
     result = resources.links.actions.resources[parts[1]].data;
   } else {
