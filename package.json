@@ -1,7 +1,7 @@
 {
   "name": "webofthings",
-  "version": "0.0.9",
-  "description": "A Node.js Web of Things server and gateway for Linux based devices such as the Raspberry Pi, Beaglebone or Edison.",
+  "version": "0.1.0",
+  "description": "A Node.js Web of Things server and gateway for Linux based devices such as the Raspberry Pi, Beaglebone, Edison or Samsung Artik",
   "main": "wot.js",
   "scripts": {
     "start": "node wot.js",
