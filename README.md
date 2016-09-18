@@ -21,6 +21,8 @@ Any Windows or *Nix device really but if you want to use the GPIOs you will need
 The framework was tested on the Raspberry Pi (A, B, B+, Zero and 2) and the Beaglebone Black.
 Most of the code also works on the Intel Edison.
 
+Note: currently `webofthings.js` only works with Node < 5.0.0 (due to the removal of `Object.observe()` from ES6) and was tested on the target devices with the Node 4 LTS. If you really want to use Node > 4, check the [ES6-compatibility](https://github.com/webofthings/webofthings.js/tree/ES6-compatibility) branch. 
+
 ## How is it built?
 ![application architecture](https://raw.githubusercontent.com/webofthings/webofthings.js/master/docs/webofthingsjs-archi.png)
 
