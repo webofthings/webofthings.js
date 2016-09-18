@@ -3,16 +3,6 @@ var WebSocketServer = require('ws').Server,
   resources = require('./../resources/model'),
   utils = require('./../utils/utils');
 
-/**
- * Fake Array.Observe if not available
- */
-var ArrayObserver = Array.observe || function (resource, callback, extra) {
-	resource.push = function (data) {
-		Array.prototype.push.call(resource, data);
-		callback([{object: resource}]);
-	};
-};
-
 exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
   console.info('WebSocket server started...');
@@ -22,7 +12,7 @@ exports.listen = function (server) {
       ws.send(JSON.stringify({'error': 'Invalid access token.'}));
     } else {
       try {
-    	  ArrayObserver(selectResource(reqUrl.pathname), function (changes) { //#C
+        Array.observe(selectResouce(reqUrl.pathname), function (changes) { //#C
           ws.send(JSON.stringify(changes[0].object[changes[0].object.length - 1]), function () {
           });
         }, ['add'])
@@ -33,7 +23,7 @@ exports.listen = function (server) {
   });
 };
 
-function selectResource(url) { //#E
+function selectResouce(url) { //#E
   var parts = url.split('/');
   parts.shift();
   var result;
@@ -42,7 +32,6 @@ function selectResource(url) { //#E
   } else {
     result = resources.links.properties.resources[parts[1]].data;
   }
-  console.log(result);
   return result;
 }
 
