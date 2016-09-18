@@ -2,7 +2,7 @@
 A server and gateway reference implementation of the [W3C Web Thing Model](http://model.webofthings.io),
 written in Node.js and tailored for embedded systems.
 
-*Note:* while this code is used in the Building the Web of Things book, it isn't the code of the book which [you can find here](https://github.com/webofthings/wot-book/).
+*Note:* while this code is used in the [Building the Web of Things book](http://book.webofthings.io), it isn't the code of the book which [you can find here](https://github.com/webofthings/wot-book/).
 
 ## What is the Web Thing Model?
 It's a simple model for Things to interact together and with app via the Web. Read more about
