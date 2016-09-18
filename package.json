@@ -72,5 +72,5 @@
     "request": "^2.55.0",
     "websocket": "^1.0.22"
   },
-  "engine": "node >= 0.12.3"
+  "engines" : { "node" : ">=0.12.3 <5.0.0" }
 }
