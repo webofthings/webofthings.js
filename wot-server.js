@@ -1,59 +1,44 @@
 var restApp = require('./servers/http'),
   wsServer = require('./servers/websockets'),
   resources = require('./resources/model'),
-  http = require('http'),
-  https = require('https'), //#A
   fs = require('fs');
 
-var key_file = './resources/change_me_privateKey.pem'; //#B
-var cert_file = './resources/change_me_caCert.pem'; //#C
-var passphrase = 'webofthings'; //#D
 
-var dht22Plugin, pirPlugin, ledsPlugin;
+var createServer = function (port, secure) {
+  if (process.env.PORT) port = process.env.PORT;
+  else if (port === undefined) port = resources.customFields.port;
+  if (secure === undefined) secure = resources.customFields.secure;
 
-var config = {
-  key: fs.readFileSync(key_file),
-  cert: fs.readFileSync(cert_file),
-  passphrase: passphrase
-};
-
-var createServer = function (port, secure, simulate) {
-  if (port === undefined) {
-    port = resources.customFields.port;
-  }
-
-  if (secure === undefined) {
-    secure = resources.customFields.secure;
-  }
+  initPlugins(); //#A
 
   if(secure) {
-    // HTTPs server
-    return server = https.createServer(config, restApp) //#E
-      .listen(process.env.PORT || port, function () {
-        console.log('HTTPs server started...');
+    var https = require('https'); //#B
+    var certFile = './resources/change_me_caCert.pem'; //#C
+    var keyFile = './resources/change_me_privateKey.pem'; //#D
+    var passphrase = 'webofthings'; //#E
 
-        // Websockets server
-        wsServer.listen(server); //#F
+    var config = {
+      cert: fs.readFileSync(certFile),
+      key: fs.readFileSync(keyFile),
+      passphrase: passphrase
+    };
 
-        initPlugins(port);
-      })
+    return server = https.createServer(config, restApp) //#F
+      .listen(port, function () {
+        wsServer.listen(server); //#G
+        console.log('Secure WoT server started on port %s', port);
+    })
   } else {
-    // HTTP server
+    var http = require('http');
     return server = http.createServer(restApp)
       .listen(process.env.PORT || port, function () {
-
-        // Websockets server
-        wsServer.listen(server); //#F
-
-        console.log('HTTP server started...');
-        initPlugins(port);
-      })
+        wsServer.listen(server);
+        console.log('Insecure WoT server started on port %s', port);
+    })
   }
 };
 
-function initPlugins(port) {
-  // Plugins
-  // -- Internal Plugins
+function initPlugins() {
   var LedsPlugin = require('./plugins/internal/ledsPlugin').LedsPlugin;
   var PirPlugin = require('./plugins/internal/pirPlugin').PirPlugin;
   var Dht22Plugin = require('./plugins/internal/dht22Plugin').Dht22Plugin;
@@ -66,8 +51,6 @@ function initPlugins(port) {
 
   dht22Plugin = new Dht22Plugin({'simulate': true, 'frequency': 5000});
   dht22Plugin.start();
-
-  console.info('Your WoT server is up and running on port %s', port);
 }
 
 module.exports = createServer;
@@ -80,9 +63,10 @@ process.on('SIGINT', function () {
   process.exit();
 });
 
-//#A We import the https module
-//#B The private key of the server that we generated before
-//#C The actual certificate of the server
-//#D The password of the private key
-//#E We create an HTTPS server and pass it the config object
-//#F By passing it the server we create, the Websocket library will automatically detect and enable the TLS support
+//#A Start the internal hardware plugins
+//#B If in secure mode, import the HTTPS module
+//#C The actual certificate file of the server
+//#D The private key of the server generated earlier
+//#E The password of the private key
+//#F Create an HTTPS server using the config object
+//#G By passing it the server you create, the WebSocket library will automatically detect and enable TLS support

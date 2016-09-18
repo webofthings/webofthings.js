@@ -1,6 +1,7 @@
 var model = require('./../resources/model'),
   keys = require('./../resources/auth'),
   crypto = require('crypto'),
+  keys = require('./../resources/auth'),
   _ = require('lodash/collection');
 
 exports.addDevice = function(id, name, description, sensors, actuators) {
@@ -57,6 +58,10 @@ exports.modelToResources = function(subModel, withValue) {
     resources.push(resource);
   });
   return resources;
+};
+
+exports.isTokenValid = function(token) {
+  return keys.apiToken === token;
 };
 
 // Generate a unique API Key
