@@ -11,9 +11,9 @@
         var url;
 
         if (local) {
-            url = "wss://localhost:8484"
+            url = "ws://localhost:8484"
         } else {
-            url = "wss://raspberrypi.local:8484"
+            url = "ws://raspberrypi.local:8484"
         }
 
         url = url + uri + '?token=' + token;
