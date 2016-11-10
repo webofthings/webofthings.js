@@ -6,10 +6,26 @@ var WebSocketServer = require('ws').Server,
 /**
  * Fake Array.Observe if not available
  */
-var ArrayObserver = Array.observe || function (resource, callback, extra) {
-	resource.push = function (data) {
-		Array.prototype.push.call(resource, data);
-		callback([{object: resource}]);
+if (Array.observe) {
+	function ArrayObserver(res, cb, methods) {
+		Array.observe(res.res.data,cb, methods);
+	};
+} else {
+	var callbacklist={'properties': {}, 'actions' : {} };
+	function ArrayObserver(res, cb, methods) {
+		if (! callbacklist[res.type][res.resname]) {
+			callbacklist[res.type][res.resname]=[];
+		}
+		callbacklist[res.type][res.resname].push(cb);
+		res.res.data.push = function (data) {
+			Array.prototype.push.call(res.res.data, data);
+			if (callbacklist[res.type][res.resname]) {
+				callbacklist[res.type][res.resname].forEach(function(cb) {
+					cb([{object: res.res.data}]);
+					});
+			}
+			
+		};
 	};
 };
 
@@ -21,14 +37,28 @@ exports.listen = function (server) {
     if (!utils.isTokenValid(reqUrl.query.token)) {
       ws.send(JSON.stringify({'error': 'Invalid access token.'}));
     } else {
-      try {
-    	  ArrayObserver(selectResource(reqUrl.pathname), function (changes) { //#C
+      var observedResource = selectResource(reqUrl.pathname); 
+      var resObjserver =  function (changes) { //#C
+    		  console.log("coucou");
           ws.send(JSON.stringify(changes[0].object[changes[0].object.length - 1]), function () {
           });
-        }, ['add'])
+        };
+      try {
+    	  ArrayObserver(observedResource, resObjserver, ['add']);
       } catch (e) { //#D
         console.log('Unable to observe %s resource!', url);
       }
+      ws.on('close', function (code, message) {
+      	if (! Array.observe) {
+      		var array = callbacklist[observedResource.type][observedResource.resname]
+      		var index = array.indexOf(resObjserver);
+      		if (index > -1) {
+      		    array.splice(index, 1);
+      		}
+      	}
+      	console.log("ws connection is closed");
+      });
+
     }
   });
 };
@@ -38,14 +68,14 @@ function selectResource(url) { //#E
   parts.shift();
 
   var result;
-  console.log(" parts ==> ", parts)
+  //console.log(" parts ==> ", parts)
   if (parts[0] === 'actions') {
-    result = resources.links.actions.resources[parts[1]].data;
+    result = resources.links.actions.resources[parts[1]];
   } else {
-    result = resources.links.properties.resources[parts[1]].data;
+    result = resources.links.properties.resources[parts[1]];
   }
-  console.log(result);
-  return result;
+  // console.log("===> ", result);
+  return { res: result, type: parts[0], resname: parts[1]};
 }
 
 //#A Create a WebSocket server by passing it the Express server
