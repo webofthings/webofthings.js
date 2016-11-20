@@ -14,14 +14,14 @@ exports.listen = function (server) {
     if (!utils.isTokenValid(reqUrl.query.token)) {
       ws.send(JSON.stringify({'error': 'Invalid access token.'}));
     } else {
-      try {
-        var data = selectResource(reqUrl.pathname);
-        watch(data, function() {
+      var data = selectResource(reqUrl.pathname);
+      watch(data, function () {
+        try {
           ws.send(JSON.stringify(data[data.length - 1]), {});
-        });
-      } catch (e) { //#D
-        console.log('Unable to observe %s resource!', url);
-      }
+        } catch (e) { //#D
+          console.log('Unable to observe %s resource!', url);
+        }
+      });
     }
   });
 };
