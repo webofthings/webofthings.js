@@ -3,6 +3,9 @@ var WebSocketServer = require('ws').Server,
   resources = require('./../resources/model'),
   utils = require('./../utils/utils');
 
+var WatchJS = require('./../utils/watch');
+var watch = WatchJS.watch;
+
 exports.listen = function (server) {
   var wss = new WebSocketServer({server: server}); //#A
   console.info('WebSocket server started...');
@@ -12,10 +15,10 @@ exports.listen = function (server) {
       ws.send(JSON.stringify({'error': 'Invalid access token.'}));
     } else {
       try {
-        Array.observe(selectResouce(reqUrl.pathname), function (changes) { //#C
-          ws.send(JSON.stringify(changes[0].object[changes[0].object.length - 1]), function () {
-          });
-        }, ['add'])
+        var data = selectResource(reqUrl.pathname);
+        watch(data, function() {
+          ws.send(JSON.stringify(data[data.length - 1]), {});
+        });
       } catch (e) { //#D
         console.log('Unable to observe %s resource!', url);
       }
@@ -23,7 +26,7 @@ exports.listen = function (server) {
   });
 };
 
-function selectResouce(url) { //#E
+function selectResource(url) { //#E
   var parts = url.split('/');
   parts.shift();
   var result;

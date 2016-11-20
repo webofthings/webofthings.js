@@ -3,6 +3,9 @@ var utils = require('./../utils/utils.js'),
   _ = require('lodash/collection'),
   resources = require('./../resources/model');
 
+var WatchJS = require('./../utils/watch');
+var watch = WatchJS.watch;
+
 /**
  * params: e.g., {'simulate': false, 'frequency': 5000};
  * propertyId: the name of the Web Thing Model property covered by the sensor/actuator
@@ -65,11 +68,18 @@ CorePlugin.prototype.showValue = function () {
 CorePlugin.prototype.observeActions = function () {
   var self = this;
   _.forEach(self.actions, function (actionId) { //#F
-    Object.observe(resources.links.actions.resources[actionId].data, function (changes) {
-      var action = changes[0].object[changes[0].object.length -1];
-      console.info('[plugin action detected] %s', actionId);
-      if (self.doAction) self.doAction(action);
-    }, ['add']);
+
+    var actionData = resources.links.actions.resources[actionId].data;
+    watch(actionData, function(index, type, change) {
+        console.log('New incoming actions -->');
+        console.log(type);
+        console.log(change);
+
+        if (type === 'push') {
+          console.info('[new plugin action detected] %s', actionId);
+          if (self.doAction) self.doAction(actionData[index]);
+        }
+    });
   });
 };
 

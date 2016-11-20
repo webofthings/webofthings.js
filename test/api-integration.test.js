@@ -168,19 +168,23 @@ describe('/', function () {
     req.post(rootUrl + uri,
       {body: {"ledId": 1, "state": true}},
       function (err, res, ledStates) {
-        req.get(rootUrl + res.headers.location, function (err, res, action) {
-          expect(err).to.be.null;
-          expect(res.statusCode).to.equal(status.OK);
+        // wait for action to be processed...
+        setTimeout(function() {
+          req.get(rootUrl + res.headers.location, function (err, res, action) {
 
-          // check the sensor value
-          expect(action).to.be.a('object');
-          expect(action.state).to.be.a('boolean');
-          expect(action.status).to.be.a('string');
-          expect(action.timestamp).to.be.a('string');
-          expect(action.status).to.equal('completed');
+            expect(err).to.be.null;
+            expect(res.statusCode).to.equal(status.OK);
 
-          done();
-        });
+            // check the sensor value
+            expect(action).to.be.a('object');
+            expect(action.state).to.be.a('boolean');
+            expect(action.status).to.be.a('string');
+            expect(action.timestamp).to.be.a('string');
+            expect(action.status).to.equal('completed');
+
+            done();
+          });
+        }, 1000);
       });
   });
 
@@ -333,7 +337,7 @@ describe('/', function () {
           expect(res.t).to.be.a('number');
           expect(res.t).to.be.above(0);
           expect(res.timestamp).to.be.a('string');
-          connection.close();
+          //connection.close();
           done();
         }
       });
@@ -360,7 +364,6 @@ describe('/', function () {
           expect(res.h).to.be.a('number');
           expect(res.h).to.be.above(0);
           expect(res.timestamp).to.be.a('string');
-          connection.close();
           done();
         }
       });
@@ -391,9 +394,8 @@ describe('/', function () {
           expect(res.h).to.be.a('number');
           expect(res.h).to.be.above(0);
           expect(res.timestamp).to.be.a('string');
-          ++i;
-          if(i > 1) {
-            connection.close();
+          i++;
+          if(i === 1) {
             done();
           }
         }
@@ -421,7 +423,6 @@ describe('/', function () {
           expect(res.presence).to.be.a('boolean');
           expect(res.presence).to.be.false;
           expect(res.timestamp).to.be.a('string');
-          connection.close();
           done();
         }
       });
@@ -449,6 +450,7 @@ describe('/', function () {
       connection.on('error', function (error) {
         console.log("Connection Error: " + error.toString());
       });
+      var i = 0;
       connection.on('message', function (message) {
         if (message.type === 'utf8') {
           console.log("Received over WS: '" + message.utf8Data + "'");
@@ -457,17 +459,21 @@ describe('/', function () {
           expect(res.ledId).to.be.a('number');
           expect(res.ledId).to.be.equal(ledId);
           expect(res.state).to.be.equal(true);
-          //TODO: Since the patch for Observe
-          //the completed status does not reach the client
-          //client receives "pending"
-          //expect(res.status).to.be.equal('completed');
           expect(res.id).to.be.a('string');
           expect(res.timestamp).to.be.a('string');
-          connection.close();
-          done();
+
+          // we should receive 2 events
+          if(i < 1) {
+            expect(res.status).to.be.equal('pending');
+            ++i;
+          } else {
+            expect(res.status).to.be.equal('completed');
+            done();
+          }
         }
       });
     });
     client.connect('ws://localhost:' + port + '/actions/ledState?token=' + token);
   });
+
 });

@@ -70,7 +70,9 @@
     "http-status": "^0.1.8",
     "mocha": "^2.2.5",
     "request": "^2.55.0",
-    "websocket": "^1.0.22"
+    "websocket": "^1.0.23"
   },
-  "engines" : { "node" : ">=0.12.3 <5.0.0" }
+  "engines": {
+    "node": ">=0.12.3 <5.0.0"
+  }
 }

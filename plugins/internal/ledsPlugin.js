@@ -17,11 +17,14 @@ function switchOnOff(value) {
   if (!this.params.simulate) {
     actuator.write(value.state === true ? 1 : 0, function () {
       self.addValue(value.state); //#D
+      value.status = 'completed'; //#E
     });
   } else {
     self.addValue(value.state);
+    setTimeout(function() {
+      value.status = 'completed';
+    }, 500);
   }
-  value.status = 'completed'; //#E
   console.info('Changed value of %s to %s', self.model.name, value.state);
 };
 
