@@ -39,7 +39,6 @@ exports.listen = function (server) {
     } else {
       var observedResource = selectResource(reqUrl.pathname); 
       var resObjserver =  function (changes) { //#C
-    		  console.log("coucou");
           ws.send(JSON.stringify(changes[0].object[changes[0].object.length - 1]), function () {
           });
         };
