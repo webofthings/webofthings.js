@@ -2,6 +2,8 @@
 A server and gateway reference implementation of the [W3C Web Thing Model](http://model.webofthings.io),
 written in Node.js and tailored for embedded systems.
 
+*Note:* while this code is used in the [Building the Web of Things book](http://book.webofthings.io), it isn't the code of the book which [you can find here](https://github.com/webofthings/wot-book/).
+
 ## What is the Web Thing Model?
 It's a simple model for Things to interact together and with app via the Web. Read more about
 it in a [blogpost](http://radar.oreilly.com/2015/10/helping-things-in-the-iot-speak-the-same-language.html) or even more in a [webinar](https://www.oreilly.com/ideas/building-iot-systems-with-web-standards)!
@@ -20,6 +22,8 @@ First, it implements a Web of Things server that you can run on any platform tha
 Any Windows or *Nix device really but if you want to use the GPIOs you will need an embedded device.
 The framework was tested on the Raspberry Pi (A, B, B+, Zero and 2) and the Beaglebone Black.
 Most of the code also works on the Intel Edison.
+
+Note: currently `webofthings.js` only works with Node < 5.0.0 (due to the removal of `Object.observe()` from ES6) and was tested on the target devices with the Node 4 LTS. If you really want to use Node > 4, check the [ES6-compatibility](https://github.com/webofthings/webofthings.js/tree/ES6-compatibility) branch. 
 
 ## How is it built?
 ![application architecture](https://raw.githubusercontent.com/webofthings/webofthings.js/master/docs/webofthingsjs-archi.png)
