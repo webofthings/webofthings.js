@@ -58,6 +58,7 @@
     "msgpack5": "^3.3.0",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
+    "uuid": "^3.0.0",
     "ws": "^1.0.1"
   },
   "optionalDependencies": {
@@ -72,5 +73,7 @@
     "request": "^2.55.0",
     "websocket": "^1.0.22"
   },
-  "engines" : { "node" : ">=0.12.3 <5.0.0" }
+  "engines": {
+    "node": ">=0.12.3 <5.0.0"
+  }
 }
