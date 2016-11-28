@@ -7,12 +7,12 @@ var WebSocketServer = require('ws').Server,
  * Fake Array.Observe if not available
  */
 if (Array.observe) {
-	function ArrayObserver(res, cb, methods) {
+	var ArrayObserver = function (res, cb, methods) {
 		Array.observe(res.res.data,cb, methods);
 	};
 } else {
 	var callbacklist={'properties': {}, 'actions' : {} };
-	function ArrayObserver(res, cb, methods) {
+	var ArrayObserver= function (res, cb, methods) {
 		if (! callbacklist[res.type][res.resname]) {
 			callbacklist[res.type][res.resname]=[];
 		}
