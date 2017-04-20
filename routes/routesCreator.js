@@ -1,6 +1,6 @@
 var express = require('express'),
   router = express.Router(),
-  uuid = require('node-uuid'),
+  uuid = require('uuid'),
   utils = require('./../utils/utils');
 
 exports.create = function (model) {
