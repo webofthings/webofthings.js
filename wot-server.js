@@ -3,13 +3,22 @@ var restApp = require('./servers/http'),
   resources = require('./resources/model'),
   fs = require('fs');
 
+// We need to disable the internal hardware plugins
+// when we are running inside a docker environment.
+if (fs.existsSync('./plugins/internal')) {
+  enableInternalPlugins = true
+} else {
+  enableInternalPlugins = false
+}
 
 var createServer = function (port, secure) {
   if (process.env.PORT) port = process.env.PORT;
   else if (port === undefined) port = resources.customFields.port;
   if (secure === undefined) secure = resources.customFields.secure;
 
-  initPlugins(); //#A
+  if(enableInternalPlugins) {
+    initPlugins(); //#A
+  }
 
   if(secure) {
     var https = require('https'); //#B
@@ -56,9 +65,11 @@ function initPlugins() {
 module.exports = createServer;
 
 process.on('SIGINT', function () {
-  ledsPlugin.stop();
-  pirPlugin.stop();
-  dht22Plugin.stop();
+  if(enableInternalPlugins) {
+    ledsPlugin.stop();
+    pirPlugin.stop();
+    dht22Plugin.stop();
+  }
   console.log('Bye, bye!');
   process.exit();
 });
