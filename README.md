@@ -8,8 +8,8 @@ it in a [blogpost](http://radar.oreilly.com/2015/10/helping-things-in-the-iot-sp
 
 ## What is webofthings.js?
 A simple, lightweight, and extensible implementation of the [W3C Web of Things Model](http://model.webofthings.io).
- in Node.js. It not (yet) a bomb proof gateway but a way to experiment with the Web of Things and the basis of the [Building the Web of Things book](https://www.manning.com/books/building-the-web-of-things?a_bid=16f48f14&a_aid=wot) 
-where you'll learn how the framework works, how to deploy it on a Raspberry Pi and how to use it to serve Web access to sensors 
+ in Node.js. It not (yet) a bomb proof gateway but a way to experiment with the Web of Things and the basis of the [Building the Web of Things book](https://www.manning.com/books/building-the-web-of-things?a_bid=16f48f14&a_aid=wot)
+where you'll learn how the framework works, how to deploy it on a Raspberry Pi and how to use it to serve Web access to sensors
 and actuators.
 
 ## What does this do?
@@ -62,6 +62,21 @@ The WoT Gateway framework comes with three internal plugins to connect it to sen
 
 but it can easily be extended by adding internal or external plugins (i.e., to serve the resources
 of other devices via a Web API) extending `corePlugin.js`.
+
+## How can I run Web of Things in Docker?
+
+Perhaps the easiest way to test Web of Things on your laptop (without sensors etc) is to use Docker.
+
+To get started, simply run:
+
+
+```
+$ docker build -t webofthings .
+$ docker run -t --rm -p 127.0.0.1:8484:8484 webofthings
+[...]
+```
+
+This will create a Web of Things instance running within Docker. You can then access it using [https://localhost:8484](https://localhost:8484).
 
 ### How do I run the tests?
 
