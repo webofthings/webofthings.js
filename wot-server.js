@@ -13,8 +13,9 @@ if (fs.existsSync('./plugins/internal')) {
 
 var createServer = function (port, secure) {
   if (process.env.PORT) port = process.env.PORT;
-  else if (port === undefined) port = resources.customFields.port;
-  if (secure === undefined) secure = resources.customFields.secure;
+    else if (port === undefined) port = resources.customFields.port;
+  if (process.env.SECURE) secure = parseInt(process.env.SECURE);
+    else if (secure === undefined) secure = resources.customFields.secure;
 
   if(enableInternalPlugins) {
     initPlugins(); //#A
