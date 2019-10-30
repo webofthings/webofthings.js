@@ -54,7 +54,7 @@
     "crypto": "0.0.3",
     "express": "^4.13.3",
     "handlebars": "^3.0.3",
-    "lodash": "^3.10.0",
+    "lodash": "^4.17.15",
     "msgpack5": "^3.3.0",
     "node-json2html": "^1.0.0",
     "node-uuid": "^1.4.3",
