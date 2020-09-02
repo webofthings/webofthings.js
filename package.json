@@ -46,7 +46,7 @@
     "messagepack"
   ],
   "dependencies": {
-    "bl": "^1.0.0",
+    "bl": "^4.0.3",
     "body-parser": "^1.13.1",
     "coap": "^0.13.1",
     "consolidate": "^0.13.1",
